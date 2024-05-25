@@ -10,8 +10,8 @@ export async function up(knex: Knex): Promise<void> {
       .inTable('customers')
       .onUpdate('CASCADE')
       .onDelete('CASCADE');
-    table.integer('quantity').checkPositive().notNullable();
-    table.integer('total_payment').checkPositive().notNullable();
+    table.integer('quantity').notNullable();
+    table.integer('total_payment').notNullable();
     table
       .enum('status', ['approved', 'waiting approve', 'waiting payment'])
       .notNullable();
