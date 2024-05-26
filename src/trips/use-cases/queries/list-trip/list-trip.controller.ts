@@ -1,9 +1,10 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Inject } from '@nestjs/common';
 import { ListTripHandler } from './list-trip.handler';
+import { LIST_TRIP_HANDLER } from 'src/trips/trip.constants';
 
 @Controller()
 export class ListTripController {
-  constructor(private handler: ListTripHandler) {}
+  constructor(@Inject(LIST_TRIP_HANDLER) private handler: ListTripHandler) {}
 
   @Get('/trips')
   async findAll() {
