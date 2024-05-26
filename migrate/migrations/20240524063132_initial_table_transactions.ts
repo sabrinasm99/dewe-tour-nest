@@ -23,7 +23,7 @@ export async function up(knex: Knex): Promise<void> {
       .inTable('trips')
       .onUpdate('CASCADE')
       .onDelete('CASCADE');
-    table.date('booking_date').notNullable();
+    table.timestamp('booking_date', { useTz: true }).notNullable();
   });
 }
 

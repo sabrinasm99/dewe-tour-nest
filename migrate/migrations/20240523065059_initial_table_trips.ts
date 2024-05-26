@@ -17,7 +17,7 @@ export async function up(knex: Knex): Promise<void> {
     table.string('eat').notNullable();
     table.integer('days').notNullable();
     table.integer('nights').notNullable();
-    table.date('date').notNullable();
+    table.timestamp('date', { useTz: true }).notNullable();
     table.integer('price').notNullable();
     table.string('description').notNullable();
     table.string('image').notNullable();
