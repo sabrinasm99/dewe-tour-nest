@@ -13,9 +13,16 @@ import { ListTripController } from './use-cases/queries/list-trip/list-trip.cont
 import { ListTripHandlerImpl } from './use-cases/queries/list-trip/list-trip.handler';
 import { UpdateTripHandlerImpl } from './use-cases/commands/update-trip/update-trip.handler';
 import { DeleteTripHandlerImpl } from './use-cases/commands/delete-trip/delete-trip.handler';
+import { UpdateTripController } from './use-cases/commands/update-trip/update-trip.controller';
+import { DeleteTripController } from './use-cases/commands/delete-trip/delete-trip.controller';
 
 @Module({
-  controllers: [InsertTripController, ListTripController],
+  controllers: [
+    InsertTripController,
+    ListTripController,
+    UpdateTripController,
+    DeleteTripController,
+  ],
   providers: [
     {
       provide: TRIP_REPOSITORY,
