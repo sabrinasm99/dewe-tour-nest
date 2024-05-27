@@ -8,12 +8,13 @@ export class UpdateTripController {
     @Inject(UPDATE_TRIP_HANDLER) private handler: UpdateTripHandler,
   ) {}
 
-  @Put()
+  @Put('/trips/:id')
   async update(@Req() req: Request) {
     const params = req.body;
+    const { id } = req.params;
 
-    await this.handler.execute(params);
+    await this.handler.execute({ id, ...params });
 
-    return { message: 'Success', data: { id: params.id } };
+    return { message: 'Success', data: { id } };
   }
 }
