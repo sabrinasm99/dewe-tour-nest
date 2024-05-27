@@ -21,7 +21,7 @@ export class InsertTripHandlerImpl implements InsertTripHandler {
 
     const id = v4();
 
-    const trip = Trip.insert({
+    const trip = Trip.create({
       id,
       title: params.title,
       country_id: params.country_id,
