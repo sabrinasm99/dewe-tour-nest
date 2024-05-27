@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { UpdateTripDTORequest } from '../use-cases/commands/update-trip/update-trip.dto.request';
 
 const TripSchema = z.object({
   id: z.string().uuid(),
