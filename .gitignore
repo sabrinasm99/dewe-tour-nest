@@ -37,3 +37,12 @@ lerna-debug.log*
 
 # modules of migrations
 /migrate/node_modules
+
+# loadenv
+/migrate/loadenv
+
+#.env
+.env
+
+# api http
+api.http

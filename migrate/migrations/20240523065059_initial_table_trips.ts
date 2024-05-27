@@ -5,7 +5,7 @@ export async function up(knex: Knex): Promise<void> {
     table.uuid('id').primary();
     table.string('title').notNullable();
     table
-      .string('country_id')
+      .uuid('country_id')
       .notNullable()
       .references('id')
       .inTable('countries')
