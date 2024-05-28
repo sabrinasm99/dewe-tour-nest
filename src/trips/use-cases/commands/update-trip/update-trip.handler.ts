@@ -72,6 +72,8 @@ export class UpdateTripHandlerImpl implements UpdateTripHandler {
       trip.updateImage(params.image);
     }
 
+    await this.tripRepo.update(trip);
+
     return trip;
   }
 }
