@@ -25,11 +25,9 @@ export class HttpExceptionFilter implements ExceptionFilter {
     let message: string;
 
     if (exception instanceof HttpException) {
-      console.log('Hello');
       status = exception.getStatus();
       message = exception.message;
     } else {
-      console.log('Hai');
       status = 500; // Internal server error
       message = (exception as Error).message || 'Internal server errora';
     }
