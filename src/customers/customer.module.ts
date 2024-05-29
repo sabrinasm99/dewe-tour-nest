@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import {
   CUSTOMER_REPOSITORY,
+  DELETE_CUSTOMER_HANDLER,
   INSERT_CUSTOMER_HANDLER,
   LIST_CUSTOMER_HANDLER,
   UPDATE_CUSTOMER_HANDLER,
@@ -10,9 +11,18 @@ import { InsertCustomerHandlerImpl } from './use-cases/commands/insert-customer/
 import { InsertCustomerController } from './use-cases/commands/insert-customer/insert-customer.controller';
 import { ListCustomerHandlerImpl } from './use-cases/queries/list-customer/list-customer.handler';
 import { UpdateCustomerHandlerImpl } from './use-cases/commands/update-customer/update-customer.handler';
+import { UpdateCustomerController } from './use-cases/commands/update-customer/update-customer.controller';
+import { DeleteCustomerController } from './use-cases/commands/delete-customer/delete-customer.controller';
+import { DeleteCustomerHandlerImpl } from './use-cases/commands/delete-customer/delete-customer.handler';
+import { ListCustomerController } from './use-cases/queries/list-customer/list-customer.controller';
 
 @Module({
-  controllers: [InsertCustomerController],
+  controllers: [
+    InsertCustomerController,
+    UpdateCustomerController,
+    DeleteCustomerController,
+    ListCustomerController,
+  ],
   providers: [
     { provide: CUSTOMER_REPOSITORY, useClass: CustomerPgRepository },
     {
@@ -26,6 +36,10 @@ import { UpdateCustomerHandlerImpl } from './use-cases/commands/update-customer/
     {
       provide: UPDATE_CUSTOMER_HANDLER,
       useClass: UpdateCustomerHandlerImpl,
+    },
+    {
+      provide: DELETE_CUSTOMER_HANDLER,
+      useClass: DeleteCustomerHandlerImpl,
     },
   ],
 })
