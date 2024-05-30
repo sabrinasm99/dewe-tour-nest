@@ -10,7 +10,7 @@ export class CustomerPgRepository implements CustomerRepository {
   async insert(customer: Customer): Promise<void> {
     const props = customer.getProps();
     const text =
-      'INSERT INTO customers(id, name, email, phone, address, gender) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *';
+      'INSERT INTO customers(id, name, email, phone, address, gender) VALUES($1, $2, $3, $4, $5, $6) RETURNING *';
 
     const values = [
       props.id,
