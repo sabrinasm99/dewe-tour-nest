@@ -24,4 +24,8 @@ export class Transaction {
     const validatedProps = TransactionSchema.parse(props);
     return new Transaction(validatedProps);
   }
+
+  updateStatus(status: string) {
+    this.props.status = TransactionSchema.shape.status.parse(status);
+  }
 }

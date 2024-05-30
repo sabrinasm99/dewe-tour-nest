@@ -1,7 +1,9 @@
 import { Transaction } from 'src/transactions/domain/transaction.domain';
-import { InsertTransactionDTORequest } from './insert-transaction.dto.request';
+import {
+  InsertTransactionDTORequest,
+  InsertTransactionDTORequestSchema,
+} from './insert-transaction.dto.request';
 import { TransactionRepository } from 'src/transactions/repositories/transaction.repository';
-import { InsertCountryDTORequestSchema } from 'src/countries/use-cases/commands/insert-country/insert-country.dto.request';
 import { v4 } from 'uuid';
 import { Inject, Injectable } from '@nestjs/common';
 import { TRANSACTION_REPOSITORY } from 'src/transactions/transaction.constants';
@@ -18,7 +20,7 @@ export class InsertTransactionHandlerImpl implements InsertTransactionHandler {
   ) {}
 
   async execute(params: InsertTransactionDTORequest) {
-    params = InsertCountryDTORequestSchema.parse(params);
+    params = InsertTransactionDTORequestSchema.parse(params);
 
     const id = v4();
 
