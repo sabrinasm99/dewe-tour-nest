@@ -3,28 +3,28 @@ import {
   Transaction,
 } from 'src/transactions/domain/transaction.domain';
 import { TransactionRepository } from 'src/transactions/repositories/transaction.repository';
-import { Inject, Injectable } from '@nestjs/common';
 import {
-  UpdateStatusToWaitingApproveDTORequest,
-  UpdateStatusToWaitingApproveDTORequestSchema,
-} from './update-status-to-waiting-approve.dto.request';
+  UpdateStatusToApprovedDTORequest,
+  UpdateStatusToApprovedDTORequestSchema,
+} from './update-status-to-approved.dto.request';
+import { Inject, Injectable } from '@nestjs/common';
 import { TRANSACTION_REPOSITORY } from 'src/transactions/transaction.constants';
 
-export interface UpdateStatusToWaitingApproveHandler {
-  execute(params: UpdateStatusToWaitingApproveDTORequest): Promise<Transaction>;
+export interface UpdateStatusToApprovedHandler {
+  execute(params: UpdateStatusToApprovedDTORequest): Promise<Transaction>;
 }
 
 @Injectable()
-export class UpdateStatusToWaitingApproveHandlerImpl
-  implements UpdateStatusToWaitingApproveHandler
+export class UpdateStatusToApprovedHandlerImpl
+  implements UpdateStatusToApprovedHandler
 {
   constructor(
     @Inject(TRANSACTION_REPOSITORY)
     private transactionRepo: TransactionRepository,
   ) {}
 
-  async execute(params: UpdateStatusToWaitingApproveDTORequest) {
-    params = UpdateStatusToWaitingApproveDTORequestSchema.parse(params);
+  async execute(params: UpdateStatusToApprovedDTORequest) {
+    params = UpdateStatusToApprovedDTORequestSchema.parse(params);
 
     const transaction = await this.transactionRepo.findById(params.id);
 
@@ -32,7 +32,7 @@ export class UpdateStatusToWaitingApproveHandlerImpl
       throw new Error('Transaction is not found');
     }
 
-    transaction.updateStatus(STATUS.WAITING_APPROVE);
+    transaction.updateStatus(STATUS.APPROVED);
 
     await this.transactionRepo.update(transaction);
 

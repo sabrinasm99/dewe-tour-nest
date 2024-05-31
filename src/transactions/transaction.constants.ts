@@ -4,3 +4,6 @@ export const INSERT_TRANSACTION_HANDLER = Symbol('InsertTransactionHandler');
 export const UPDATE_STATUS_TO_WAITING_APPROVE_HANDLER = Symbol(
   'UpdateStatusToWaitingApproveHandler',
 );
+export const UPDATE_STATUS_TO_APPROVED_HANDLER = Symbol(
+  'UpdateStatusToApproved',
+);

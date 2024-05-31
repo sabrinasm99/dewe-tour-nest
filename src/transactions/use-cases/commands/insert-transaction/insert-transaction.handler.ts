@@ -1,4 +1,7 @@
-import { Transaction } from 'src/transactions/domain/transaction.domain';
+import {
+  STATUS,
+  Transaction,
+} from 'src/transactions/domain/transaction.domain';
 import {
   InsertTransactionDTORequest,
   InsertTransactionDTORequestSchema,
@@ -29,7 +32,7 @@ export class InsertTransactionHandlerImpl implements InsertTransactionHandler {
       customer_id: params.customer_id,
       quantity: params.quantity,
       total_payment: params.total_payment,
-      status: 'waiting payment',
+      status: STATUS.WAITING_PAYMENT,
       attachment: null,
       trip_id: params.trip_id,
       booking_date: params.booking_date,
