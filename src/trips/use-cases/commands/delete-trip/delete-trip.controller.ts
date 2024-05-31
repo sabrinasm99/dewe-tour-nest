@@ -10,7 +10,7 @@ export class DeleteTripController {
   async delete(@Req() req: Request) {
     const { id } = req.params;
 
-    await this.handler.execute(id);
+    await this.handler.execute({ id });
 
     return { message: 'Success', data: { id } };
   }

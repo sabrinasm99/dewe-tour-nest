@@ -2,12 +2,12 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CUSTOMER_REPOSITORY } from 'src/customers/customer.constants';
 import { CustomerRepository } from 'src/customers/repositories/customer.repository';
 import {
-  DeleteTripDTORequest,
-  DeleteTripDTORequestSchema,
-} from 'src/trips/use-cases/commands/delete-trip/delete-trip.dto.request';
+  DeleteCustomerDTORequest,
+  DeleteCustomerDTORequestSchema,
+} from './delete-customer.dto.request';
 
 export interface DeleteCustomerHandler {
-  execute(id: DeleteTripDTORequest): Promise<void>;
+  execute(params: DeleteCustomerDTORequest): Promise<void>;
 }
 
 @Injectable()
@@ -16,15 +16,15 @@ export class DeleteCustomerHandlerImpl implements DeleteCustomerHandler {
     @Inject(CUSTOMER_REPOSITORY) private customerRepo: CustomerRepository,
   ) {}
 
-  async execute(id: DeleteTripDTORequest) {
-    id = DeleteTripDTORequestSchema.parse(id);
+  async execute(params: DeleteCustomerDTORequest) {
+    params = DeleteCustomerDTORequestSchema.parse(params);
 
-    const customer = await this.customerRepo.findById(id);
+    const customer = await this.customerRepo.findById(params.id);
 
     if (!customer) {
       throw new Error('Customer is not found');
     }
 
-    await this.customerRepo.delete(id);
+    await this.customerRepo.delete(params.id);
   }
 }

@@ -1,6 +1,8 @@
 import { z } from 'zod';
 
-export const DeleteCustomerDTORequestSchema = z.string().uuid();
+export const DeleteCustomerDTORequestSchema = z.object({
+  id: z.string().uuid(),
+});
 
 export type DeleteCustomerDTORequest = z.infer<
   typeof DeleteCustomerDTORequestSchema

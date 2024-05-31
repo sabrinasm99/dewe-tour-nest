@@ -7,22 +7,22 @@ import { Inject, Injectable } from '@nestjs/common';
 import { TRIP_REPOSITORY } from 'src/trips/trip.constants';
 
 export interface DeleteTripHandler {
-  execute(id: DeleteTripDTORequest): Promise<void>;
+  execute(params: DeleteTripDTORequest): Promise<void>;
 }
 
 @Injectable()
 export class DeleteTripHandlerImpl implements DeleteTripHandler {
   constructor(@Inject(TRIP_REPOSITORY) private tripRepo: TripRepository) {}
 
-  async execute(id: DeleteTripDTORequest) {
-    id = DeleteTripDTORequestSchema.parse(id);
+  async execute(params: DeleteTripDTORequest) {
+    params = DeleteTripDTORequestSchema.parse(params);
 
-    const trip = await this.tripRepo.findById(id);
+    const trip = await this.tripRepo.findById(params.id);
 
     if (!trip) {
       throw new Error('Trip is not found');
     }
 
-    await this.tripRepo.delete(id);
+    await this.tripRepo.delete(params.id);
   }
 }
