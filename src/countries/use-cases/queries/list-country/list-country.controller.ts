@@ -1,7 +1,8 @@
-import { Get, Inject } from '@nestjs/common';
+import { Controller, Get, Inject } from '@nestjs/common';
 import { ListCountryHandler } from './list-country.handler';
 import { LIST_COUNTRY_HANDLER } from 'src/countries/country.constants';
 
+@Controller()
 export class ListCountryController {
   constructor(
     @Inject(LIST_COUNTRY_HANDLER) private handler: ListCountryHandler,
