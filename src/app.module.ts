@@ -7,6 +7,8 @@ import { HttpExceptionFilter } from './http-exception.filter';
 import { DatabaseModule } from './connections/database/database.module';
 import 'dotenv/config';
 import { TransactionModule } from './transactions/transaction.module';
+import { CountryModule } from './countries/country.module';
+import { CustomerModule } from './customers/customer.module';
 
 @Module({
   imports: [
@@ -19,6 +21,8 @@ import { TransactionModule } from './transactions/transaction.module';
     }),
     TripModule,
     TransactionModule,
+    CountryModule,
+    CustomerModule,
   ],
   controllers: [],
   providers: [
