@@ -14,17 +14,7 @@ import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { UploadPaymentProofHandler } from './uploda-payment-proof.dto.request';
 import { UPLOAD_PAYMENT_PROOF_HANDLER } from 'src/transactions/transaction.constants';
-
-const multerOptions = {
-  storage: diskStorage({
-    destination: 'images/payment-proof',
-    filename: (req, file, cb) => {
-      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-      const ext = extname(file.originalname);
-      cb(null, `${file.fieldname}-${uniqueSuffix}${ext}`);
-    },
-  }),
-};
+import multerOptions from 'src/shared/multer-option';
 
 @Controller()
 export class UploadPaymentProofController {

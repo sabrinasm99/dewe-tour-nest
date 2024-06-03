@@ -42,7 +42,7 @@ export class UpdateCustomerHandlerImpl implements UpdateCustomerHandler {
       customer.updateAddress(params.address);
     }
 
-    if (params.is_admin) {
+    if (params.is_admin !== undefined) {
       customer.updateIsAdmin(params.is_admin);
     }
 
