@@ -7,3 +7,4 @@ export const UPDATE_STATUS_TO_WAITING_APPROVE_HANDLER = Symbol(
 export const UPDATE_STATUS_TO_APPROVED_HANDLER = Symbol(
   'UpdateStatusToApproved',
 );
+export const UPLOAD_PAYMENT_PROOF_HANDLER = Symbol('UploadPaymentProofHandler');

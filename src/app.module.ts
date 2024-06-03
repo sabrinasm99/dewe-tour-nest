@@ -6,6 +6,7 @@ import { APP_FILTER } from '@nestjs/core';
 import { HttpExceptionFilter } from './http-exception.filter';
 import { DatabaseModule } from './connections/database/database.module';
 import 'dotenv/config';
+import { TransactionModule } from './transactions/transaction.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import 'dotenv/config';
       password: process.env.PG_PASSWORD,
     }),
     TripModule,
+    TransactionModule,
   ],
   controllers: [],
   providers: [

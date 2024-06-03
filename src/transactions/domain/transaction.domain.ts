@@ -34,4 +34,8 @@ export class Transaction {
   updateStatus(status: STATUS) {
     this.props.status = TransactionSchema.shape.status.parse(status);
   }
+
+  updateAttachment(fileName: string) {
+    this.props.attachment = TransactionSchema.shape.attachment.parse(fileName);
+  }
 }

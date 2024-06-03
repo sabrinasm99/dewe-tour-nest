@@ -5,6 +5,7 @@ import {
   TRANSACTION_REPOSITORY,
   UPDATE_STATUS_TO_APPROVED_HANDLER,
   UPDATE_STATUS_TO_WAITING_APPROVE_HANDLER,
+  UPLOAD_PAYMENT_PROOF_HANDLER,
 } from './transaction.constants';
 import { InsertTransactionHandlerImpl } from './use-cases/commands/insert-transaction/insert-transaction.handler';
 import { TransactionPgRepository } from './repositories/implementations/transaction.pg.impl.repository';
@@ -15,6 +16,8 @@ import { UpdateStatusToApprovedHandlerImpl } from './use-cases/commands/update-s
 import { UpdateStatusToApprovedController } from './use-cases/commands/update-status-to-approved/update-status-to-approved.controller';
 import { ListTransactionHandlerImpl } from './use-cases/queries/list-transaction/list-transaction.handler';
 import { ListTransactionController } from './use-cases/queries/list-transaction/list-transaction.controller';
+import { UploadPaymentProofController } from './use-cases/commands/upload-payment-proof/upload-payment-proof.controller';
+import { UploadPaymentProofHandlerImpl } from './use-cases/commands/upload-payment-proof/uploda-payment-proof.dto.request';
 
 @Module({
   controllers: [
@@ -22,6 +25,7 @@ import { ListTransactionController } from './use-cases/queries/list-transaction/
     UpdateStatusToWaitingApproveController,
     UpdateStatusToApprovedController,
     ListTransactionController,
+    UploadPaymentProofController,
   ],
   providers: [
     {
@@ -43,6 +47,10 @@ import { ListTransactionController } from './use-cases/queries/list-transaction/
     {
       provide: LIST_TRANSACTION_HANDLER,
       useClass: ListTransactionHandlerImpl,
+    },
+    {
+      provide: UPLOAD_PAYMENT_PROOF_HANDLER,
+      useClass: UploadPaymentProofHandlerImpl,
     },
   ],
 })

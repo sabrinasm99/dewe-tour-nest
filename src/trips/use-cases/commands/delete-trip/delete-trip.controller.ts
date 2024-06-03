@@ -1,10 +1,13 @@
-import { Controller, Delete, Req } from '@nestjs/common';
+import { Controller, Delete, Inject, Req } from '@nestjs/common';
 import { DeleteTripHandler } from './delete-trip.handler';
 import { Request } from 'express';
+import { DELETE_TRIP_HANDLER } from 'src/trips/trip.constants';
 
 @Controller()
 export class DeleteTripController {
-  constructor(private handler: DeleteTripHandler) {}
+  constructor(
+    @Inject(DELETE_TRIP_HANDLER) private handler: DeleteTripHandler,
+  ) {}
 
   @Delete('/trips/:id')
   async delete(@Req() req: Request) {
