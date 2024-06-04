@@ -11,8 +11,9 @@ import {
 import { UpdateCustomerHandler } from './update-customer.handler';
 import { UPDATE_CUSTOMER_HANDLER } from 'src/customers/customer.constants';
 import { Request } from 'express';
-import multerOptions from 'src/shared/multer-option';
+import filenameGenerator from 'src/shared/filename-generator';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { writeFile } from 'fs/promises';
 
 @Controller()
 export class UpdateCustomerController {
@@ -21,7 +22,7 @@ export class UpdateCustomerController {
   ) {}
 
   @Put('/customers/:id')
-  @UseInterceptors(FileInterceptor('image', multerOptions))
+  @UseInterceptors(FileInterceptor('image'))
   async update(
     @Req() req: Request,
     @UploadedFile(
@@ -32,10 +33,20 @@ export class UpdateCustomerController {
     )
     file: Express.Multer.File,
   ) {
-    const params = req.body;
+    const body = req.body;
     const { id } = req.params;
 
-    await this.handler.execute({ id, ...params, image: file?.filename });
+    if (file) {
+      const filename = filenameGenerator(file.fieldname, file.originalname);
+
+      await this.handler.execute({ id, ...body, image: filename });
+
+      const filePath = `./images/customer-avatar/${filename}`;
+
+      await writeFile(filePath, file.buffer);
+    } else {
+      await this.handler.execute({ id, ...body });
+    }
 
     return { message: 'Success', data: { id } };
   }

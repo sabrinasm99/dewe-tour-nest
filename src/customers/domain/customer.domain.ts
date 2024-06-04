@@ -8,7 +8,7 @@ const CustomerSchema = z.object({
   address: z.string(),
   is_admin: z.boolean().optional(),
   gender: z.enum(['male', 'female']),
-  image: z.string().optional(),
+  image: z.string().nullable().optional(),
 });
 
 export type CustomerProps = z.infer<typeof CustomerSchema>;

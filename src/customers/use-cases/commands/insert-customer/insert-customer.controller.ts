@@ -11,9 +11,9 @@ export class InsertCustomerController {
 
   @Post('/customers')
   async insert(@Req() req: Request) {
-    const params = req.body;
+    const body = req.body;
 
-    const customer = await this.handler.execute(params);
+    const customer = await this.handler.execute({ ...body });
 
     const { id } = customer.getProps();
 
