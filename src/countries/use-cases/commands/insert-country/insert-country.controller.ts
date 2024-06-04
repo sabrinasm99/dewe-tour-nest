@@ -11,9 +11,9 @@ export class InsertCountryController {
 
   @Post('/countries')
   async insert(@Req() req: Request) {
-    const params = req.body;
+    const body = req.body;
 
-    const country = await this.handler.execute(params);
+    const country = await this.handler.execute({ ...body });
 
     const { id } = country.getProps();
 
