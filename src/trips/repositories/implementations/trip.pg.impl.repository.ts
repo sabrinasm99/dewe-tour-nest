@@ -11,11 +11,12 @@ export class TripPgRepository implements TripRepository {
     const props = trip.getProps();
 
     const text =
-      'INSERT INTO trips(id, title, country_id, accomodation, eat, days, nights, date, price, description, image) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *';
+      'INSERT INTO trips(id, title, country_id, quota, accomodation, eat, days, nights, date, price, description, image) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *';
     const values = [
       props.id,
       props.title,
       props.country_id,
+      props.quota,
       props.accomodation,
       props.eat,
       props.days,
