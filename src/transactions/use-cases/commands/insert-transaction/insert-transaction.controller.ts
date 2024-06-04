@@ -12,9 +12,9 @@ export class InsertTransactionController {
 
   @Post('/transactions')
   async insert(@Req() req: Request) {
-    const params = req.body;
+    const body = req.body;
 
-    const transaction = await this.handler.execute(params);
+    const transaction = await this.handler.execute({ ...body });
 
     const { id } = transaction.getProps();
 

@@ -14,7 +14,8 @@ import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { UploadPaymentProofHandler } from './uploda-payment-proof.dto.request';
 import { UPLOAD_PAYMENT_PROOF_HANDLER } from 'src/transactions/transaction.constants';
-import multerOptions from 'src/shared/multer-option';
+import filenameGenerator from 'src/shared/filename-generator';
+import { writeFile } from 'fs/promises';
 
 @Controller()
 export class UploadPaymentProofController {
@@ -24,7 +25,7 @@ export class UploadPaymentProofController {
   ) {}
 
   @Post('/transactions/:id/upload')
-  @UseInterceptors(FileInterceptor('attachment', multerOptions))
+  @UseInterceptors(FileInterceptor('attachment'))
   async uploadProof(
     @Req() req: Request,
     @UploadedFile(
@@ -36,7 +37,13 @@ export class UploadPaymentProofController {
   ) {
     const { id } = req.params;
 
+    const filename = filenameGenerator(file.fieldname, file.originalname);
+
+    const filePath = `./images/payment-proof/${filename}`;
+
     await this.handler.execute({ id, attachment: file.filename });
+
+    await writeFile(filePath, file.buffer);
 
     return { message: 'Success', data: { id } };
   }
