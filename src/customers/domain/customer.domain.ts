@@ -4,6 +4,7 @@ const CustomerSchema = z.object({
   id: z.string().uuid(),
   name: z.string(),
   email: z.string().email(),
+  password: z.string(),
   phone: z.string(),
   address: z.string(),
   is_admin: z.boolean().optional(),
@@ -51,5 +52,9 @@ export class Customer {
 
   updateImage(image: string) {
     this.props.image = CustomerSchema.shape.image.parse(image);
+  }
+
+  updatePassword(password: string) {
+    this.props.password = CustomerSchema.shape.password.parse(password);
   }
 }
