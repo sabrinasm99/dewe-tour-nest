@@ -6,7 +6,11 @@ import {
 import { CustomerRepository } from 'src/customers/repositories/customer.repository';
 import { v4 } from 'uuid';
 import { Inject, Injectable } from '@nestjs/common';
-import { CUSTOMER_REPOSITORY } from 'src/customers/customer.constants';
+import {
+  CUSTOMER_REPOSITORY,
+  saltRounds,
+} from 'src/customers/customer.constants';
+import { hash } from 'bcrypt';
 
 export interface InsertCustomerHandler {
   execute(params: InsertCustomerDTORequest): Promise<Customer>;
@@ -23,10 +27,13 @@ export class InsertCustomerHandlerImpl implements InsertCustomerHandler {
 
     const id = v4();
 
+    const hashedPass = await hash(params.password, saltRounds);
+
     const customer = Customer.create({
       id,
       name: params.name,
       email: params.email,
+      password: hashedPass,
       phone: params.phone,
       address: params.address,
       gender: params.gender,

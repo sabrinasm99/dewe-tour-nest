@@ -5,7 +5,11 @@ import {
 } from './update-customer.dto.request';
 import { CustomerRepository } from 'src/customers/repositories/customer.repository';
 import { Inject, Injectable } from '@nestjs/common';
-import { CUSTOMER_REPOSITORY } from 'src/customers/customer.constants';
+import {
+  CUSTOMER_REPOSITORY,
+  saltRounds,
+} from 'src/customers/customer.constants';
+import { hash } from 'bcrypt';
 
 export interface UpdateCustomerHandler {
   execute(params: UpdateCustomerDTORequest): Promise<Customer>;
@@ -52,6 +56,11 @@ export class UpdateCustomerHandlerImpl implements UpdateCustomerHandler {
 
     if (params.image) {
       customer.updateImage(params.image);
+    }
+
+    if (params.password) {
+      const hashedPass = await hash(params.password, saltRounds);
+      customer.updatePassword(hashedPass);
     }
 
     await this.customerRepo.update(customer);
