@@ -63,4 +63,19 @@ export class CustomerPgRepository implements CustomerRepository {
 
     await this.client.query(text, value);
   }
+
+  async findByEmail(email: string) {
+    const text = 'SELECT * FROM customers WHERE email = $1';
+    const value = [email];
+
+    const result = await this.client.query(text, value);
+
+    if (result.rows.length === 0) {
+      return null;
+    }
+
+    const row = result.rows[0];
+
+    return Customer.create({ ...row });
+  }
 }

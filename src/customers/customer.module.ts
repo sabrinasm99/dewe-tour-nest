@@ -4,6 +4,7 @@ import {
   DELETE_CUSTOMER_HANDLER,
   INSERT_CUSTOMER_HANDLER,
   LIST_CUSTOMER_HANDLER,
+  LOGIN_CUSTOMER_HANDLER,
   UPDATE_CUSTOMER_HANDLER,
 } from './customer.constants';
 import { CustomerPgRepository } from './repositories/implementations/customer.pg.impl.repository';
@@ -15,6 +16,8 @@ import { UpdateCustomerController } from './use-cases/commands/update-customer/u
 import { DeleteCustomerController } from './use-cases/commands/delete-customer/delete-customer.controller';
 import { DeleteCustomerHandlerImpl } from './use-cases/commands/delete-customer/delete-customer.handler';
 import { ListCustomerController } from './use-cases/queries/list-customer/list-customer.controller';
+import { LoginCustomerHandlerImpl } from './use-cases/commands/login-customer/login-customer.handler';
+import { LoginCustomerController } from './use-cases/commands/login-customer/login-customer.controller';
 
 @Module({
   controllers: [
@@ -22,6 +25,7 @@ import { ListCustomerController } from './use-cases/queries/list-customer/list-c
     UpdateCustomerController,
     DeleteCustomerController,
     ListCustomerController,
+    LoginCustomerController,
   ],
   providers: [
     { provide: CUSTOMER_REPOSITORY, useClass: CustomerPgRepository },
@@ -40,6 +44,10 @@ import { ListCustomerController } from './use-cases/queries/list-customer/list-c
     {
       provide: DELETE_CUSTOMER_HANDLER,
       useClass: DeleteCustomerHandlerImpl,
+    },
+    {
+      provide: LOGIN_CUSTOMER_HANDLER,
+      useClass: LoginCustomerHandlerImpl,
     },
   ],
 })
