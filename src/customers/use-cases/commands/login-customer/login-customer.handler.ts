@@ -7,9 +7,14 @@ import { Customer } from 'src/customers/domain/customer.domain';
 import { compare } from 'bcrypt';
 import { Inject, Injectable } from '@nestjs/common';
 import { CUSTOMER_REPOSITORY } from 'src/customers/customer.constants';
+import { sign } from 'jsonwebtoken';
 
+export type LoginResultProps = {
+  id: string;
+  token: string;
+};
 export interface LoginCustomerHandler {
-  execute(params: LoginCustomerDTORequest): Promise<Customer>;
+  execute(params: LoginCustomerDTORequest): Promise<LoginResultProps>;
 }
 
 @Injectable()
@@ -28,13 +33,15 @@ export class LoginCustomerHandlerImpl implements LoginCustomerHandler {
     }
 
     // check password
-    const { password: savedPass } = customer.getProps();
+    const { password: savedPass, id: customerId } = customer.getProps();
     const validatedPass = await compare(params.password, savedPass);
 
     if (!validatedPass) {
       throw new Error('Email or password invalid');
     }
 
-    return customer;
+    const token = sign({ id: customerId }, 'loginpass');
+
+    return { id: customerId, token };
   }
 }

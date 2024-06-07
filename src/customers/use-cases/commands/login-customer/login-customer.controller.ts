@@ -13,10 +13,8 @@ export class LoginCustomerController {
   async login(@Req() req: Request) {
     const body = req.body;
 
-    const result = await this.handler.execute({ ...body });
+    const { id, token } = await this.handler.execute({ ...body });
 
-    const { id } = result.getProps();
-
-    return { message: 'Success', data: { id } };
+    return { message: 'Success', data: { id, token } };
   }
 }
