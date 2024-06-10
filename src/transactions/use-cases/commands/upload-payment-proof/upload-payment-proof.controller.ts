@@ -1,15 +1,17 @@
 import {
   Controller,
   FileTypeValidator,
+  HttpStatus,
   Inject,
   ParseFilePipe,
   Post,
   Req,
+  Res,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { Request, Express } from 'express';
+import { Request, Express, Response } from 'express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { UploadPaymentProofHandler } from './uploda-payment-proof.dto.request';
@@ -28,6 +30,7 @@ export class UploadPaymentProofController {
   @UseInterceptors(FileInterceptor('attachment'))
   async uploadProof(
     @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
     @UploadedFile(
       new ParseFilePipe({
         validators: [new FileTypeValidator({ fileType: /(jpg|jpeg|png)$/ })],
@@ -44,6 +47,8 @@ export class UploadPaymentProofController {
     await this.handler.execute({ id, attachment: file.filename });
 
     await writeFile(filePath, file.buffer);
+
+    res.status(HttpStatus.OK);
 
     return { message: 'Success', data: { id } };
   }
