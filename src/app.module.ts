@@ -9,6 +9,8 @@ import 'dotenv/config';
 import { TransactionModule } from './transactions/transaction.module';
 import { CountryModule } from './countries/country.module';
 import { CustomerModule } from './customers/customer.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -23,6 +25,20 @@ import { CustomerModule } from './customers/customer.module';
     TransactionModule,
     CountryModule,
     CustomerModule,
+    ServeStaticModule.forRoot(
+      {
+        rootPath: join(__dirname, '../../images/trip-picture'),
+        serveRoot: '/trip/',
+      },
+      {
+        rootPath: join(__dirname, '../../images/customer-avatar'),
+        serveRoot: '/avatar/',
+      },
+      {
+        rootPath: join(__dirname, '../../images/payment-proof'),
+        serveRoot: '/proof/',
+      },
+    ),
   ],
   controllers: [],
   providers: [
