@@ -4,7 +4,7 @@ export const UpdateCustomerDTORequestSchema = z.object({
   id: z.string().uuid(),
   name: z.string().optional(),
   email: z.string().email().optional(),
-  password: z.string(),
+  password: z.string().optional(),
   phone: z.string().optional(),
   address: z.string().optional(),
   is_admin: z.boolean().optional(),
