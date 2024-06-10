@@ -28,6 +28,7 @@ export class UpdateTripController {
     @UploadedFile(
       new ParseFilePipe({
         validators: [new FileTypeValidator({ fileType: /(jpg|jpeg|png)$/ })],
+        fileIsRequired: false,
       }),
     )
     file: Express.Multer.File,
