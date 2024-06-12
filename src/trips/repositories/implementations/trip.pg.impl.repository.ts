@@ -34,10 +34,11 @@ export class TripPgRepository implements TripRepository {
     const props = trip.getProps();
 
     const text =
-      'UPDATE trips SET title = $1, country_id = $2, accomodation = $3, eat = $4, days = $5, nights = $6, date = $7, price = $8, description = $9, image = $10 WHERE id = $11';
+      'UPDATE trips SET title = $1, country_id = $2, quota = $3, accomodation = $4, eat = $5, days = $6, nights = $7, date = $8, price = $9, description = $10, image = $11 WHERE id = $12';
     const values = [
       props.title,
       props.country_id,
+      props.quota,
       props.accomodation,
       props.eat,
       props.days,
