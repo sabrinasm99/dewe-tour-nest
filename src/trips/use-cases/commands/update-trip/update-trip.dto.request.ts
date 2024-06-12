@@ -13,7 +13,8 @@ export const UpdateTripDTORequestSchema = z.object({
   date: z.date().optional(),
   price: z.number().int().nonnegative().optional(),
   description: z.string().optional(),
-  image: z.string().optional(),
+  image_filename: z.string().optional(),
+  image_buffer: z.instanceof(Buffer).optional(),
 });
 
 export type UpdateTripDTORequest = z.infer<typeof UpdateTripDTORequestSchema>;

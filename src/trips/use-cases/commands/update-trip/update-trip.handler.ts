@@ -6,6 +6,7 @@ import {
 import { TripRepository } from 'src/trips/repositories/trip.repository';
 import { Inject, Injectable } from '@nestjs/common';
 import { TRIP_REPOSITORY } from 'src/trips/trip.constants';
+import { unlink, writeFile } from 'fs/promises';
 
 export interface UpdateTripHandler {
   execute(params: UpdateTripDTORequest): Promise<Trip>;
@@ -68,11 +69,23 @@ export class UpdateTripHandlerImpl implements UpdateTripHandler {
       trip.updateDescription(params.description);
     }
 
-    if (params.image) {
-      trip.updateImage(params.image);
+    let newPath, oldPath;
+
+    if (params.image_filename) {
+      newPath = `./images/trip-picture/${params.image_filename}`;
+
+      const { image } = trip.getProps();
+      oldPath = `./images/trip-picture/${image}`;
+
+      trip.updateImage(params.image_filename);
     }
 
     await this.tripRepo.update(trip);
+
+    if (newPath && oldPath && params.image_buffer) {
+      await unlink(oldPath);
+      await writeFile(newPath, params.image_buffer);
+    }
 
     return trip;
   }

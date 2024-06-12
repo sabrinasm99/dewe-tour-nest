@@ -36,15 +36,26 @@ export class UpdateTripController {
     const body = req.body;
     const { id } = req.params;
 
+    const bodyTransform = {
+      id,
+      ...body,
+      quota: !isNaN(Number(body.quota)) && Number(body.quota),
+      days: !isNaN(Number(body.days)) && Number(body.days),
+      nights: !isNaN(Number(body.nights)) && Number(body.nights),
+      date: body.date && new Date(body.date),
+      price: !isNaN(Number(body.price)) && Number(body.price),
+    };
+
     if (file) {
       const filename = filenameGenerator(file.fieldname, file.originalname);
-      const filePath = `./images/trip-picture/${filename}`;
 
-      await this.handler.execute({ id, ...body, image: filename });
-
-      await writeFile(filePath, filename);
+      await this.handler.execute({
+        ...bodyTransform,
+        image_filename: filename,
+        image_buffer: file.buffer,
+      });
     } else {
-      await this.handler.execute({ id, ...body });
+      await this.handler.execute({ ...bodyTransform });
     }
 
     return { message: 'Success', data: { id } };
