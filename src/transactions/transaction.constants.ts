@@ -8,3 +8,4 @@ export const UPDATE_STATUS_TO_APPROVED_HANDLER = Symbol(
   'UpdateStatusToApproved',
 );
 export const UPLOAD_PAYMENT_PROOF_HANDLER = Symbol('UploadPaymentProofHandler');
+export const DELETE_TRANSACTION_HANDLER = Symbol('DeleteTransactionHandler');

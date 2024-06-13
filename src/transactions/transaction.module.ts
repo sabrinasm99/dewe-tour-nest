@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import {
+  DELETE_TRANSACTION_HANDLER,
   INSERT_TRANSACTION_HANDLER,
   LIST_TRANSACTION_HANDLER,
   TRANSACTION_REPOSITORY,
@@ -18,6 +19,8 @@ import { ListTransactionHandlerImpl } from './use-cases/queries/list-transaction
 import { ListTransactionController } from './use-cases/queries/list-transaction/list-transaction.controller';
 import { UploadPaymentProofController } from './use-cases/commands/upload-payment-proof/upload-payment-proof.controller';
 import { UploadPaymentProofHandlerImpl } from './use-cases/commands/upload-payment-proof/upload-payment-proof.handler';
+import { DeleteTransactionController } from './use-cases/commands/delete-transaction/delete-transaction.controller';
+import { DeleteTransactionHandlerImpl } from './use-cases/commands/delete-transaction/delete-transaction.handler';
 
 @Module({
   controllers: [
@@ -26,6 +29,7 @@ import { UploadPaymentProofHandlerImpl } from './use-cases/commands/upload-payme
     UpdateStatusToApprovedController,
     ListTransactionController,
     UploadPaymentProofController,
+    DeleteTransactionController,
   ],
   providers: [
     {
@@ -51,6 +55,10 @@ import { UploadPaymentProofHandlerImpl } from './use-cases/commands/upload-payme
     {
       provide: UPLOAD_PAYMENT_PROOF_HANDLER,
       useClass: UploadPaymentProofHandlerImpl,
+    },
+    {
+      provide: DELETE_TRANSACTION_HANDLER,
+      useClass: DeleteTransactionHandlerImpl,
     },
   ],
 })

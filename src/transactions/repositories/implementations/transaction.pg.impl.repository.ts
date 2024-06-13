@@ -69,4 +69,11 @@ export class TransactionPgRepository implements TransactionRepository {
 
     await this.client.query(text, values);
   }
+
+  async delete(id: string): Promise<void> {
+    const text = 'DELETE FROM transactions WHERE id = $1';
+    const value = [id];
+
+    await this.client.query(text, value);
+  }
 }
