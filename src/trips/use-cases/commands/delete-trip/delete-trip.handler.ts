@@ -5,6 +5,7 @@ import {
 } from './delete-trip.dto.request';
 import { Inject, Injectable } from '@nestjs/common';
 import { TRIP_REPOSITORY } from 'src/trips/trip.constants';
+import { unlink } from 'fs/promises';
 
 export interface DeleteTripHandler {
   execute(params: DeleteTripDTORequest): Promise<void>;
@@ -23,6 +24,17 @@ export class DeleteTripHandlerImpl implements DeleteTripHandler {
       throw new Error('Trip is not found');
     }
 
+    const { image } = trip.getProps();
+
+    let filePath;
+    if (image) {
+      filePath = `./images/trip-picture/${image}`;
+    }
+
     await this.tripRepo.delete(params.id);
+
+    if (filePath) {
+      await unlink(filePath);
+    }
   }
 }
