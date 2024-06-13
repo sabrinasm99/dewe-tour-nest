@@ -7,6 +7,7 @@ import { TripRepository } from 'src/trips/repositories/trip.repository';
 import { v4 } from 'uuid';
 import { Inject, Injectable } from '@nestjs/common';
 import { TRIP_REPOSITORY } from 'src/trips/trip.constants';
+import { writeFile } from 'fs/promises';
 
 export interface InsertTripHandler {
   execute(params: InsertTripDTORequest): Promise<Trip>;
@@ -34,10 +35,14 @@ export class InsertTripHandlerImpl implements InsertTripHandler {
       date: params.date,
       price: params.price,
       description: params.description,
-      image: params.image,
+      image: params.image_filename,
     });
 
     await this.tripRepo.insert(trip);
+
+    const filePath = `./images/trip-picture/${params.image_filename}`;
+
+    await writeFile(filePath, params.image_buffer);
 
     return trip;
   }

@@ -70,20 +70,25 @@ export class UpdateTripHandlerImpl implements UpdateTripHandler {
     }
 
     let newPath, oldPath;
+    const { image } = trip.getProps();
+
+    if (image) {
+      oldPath = `./images/trip-picture/${image}`;
+    }
 
     if (params.image_filename) {
       newPath = `./images/trip-picture/${params.image_filename}`;
-
-      const { image } = trip.getProps();
-      oldPath = `./images/trip-picture/${image}`;
-
       trip.updateImage(params.image_filename);
     }
 
     await this.tripRepo.update(trip);
 
-    if (newPath && oldPath && params.image_buffer) {
+    if (oldPath && newPath) {
       await unlink(oldPath);
+      await writeFile(newPath, params.image_buffer);
+    }
+
+    if (!oldPath && newPath) {
       await writeFile(newPath, params.image_buffer);
     }
 

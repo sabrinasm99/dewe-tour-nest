@@ -10,7 +10,6 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Request } from 'express';
-import { writeFile } from 'fs/promises';
 import { InsertTripHandler } from './insert-trip.handler';
 import { INSERT_TRIP_HANDLER } from 'src/trips/trip.constants';
 import filenameGenerator from 'src/shared/filename-generator';
@@ -43,12 +42,9 @@ export class InsertTripController {
       nights: Number(body.nights),
       date: new Date(body.date),
       price: Number(body.price),
-      image: filename,
+      image_filename: filename,
+      image_buffer: file.buffer,
     });
-
-    const filePath = `./images/trip-picture/${filename}`;
-
-    await writeFile(filePath, file.buffer);
 
     const { id } = trip.getProps();
 
