@@ -5,6 +5,7 @@ import {
   DeleteCustomerDTORequest,
   DeleteCustomerDTORequestSchema,
 } from './delete-customer.dto.request';
+import { unlink } from 'fs/promises';
 
 export interface DeleteCustomerHandler {
   execute(params: DeleteCustomerDTORequest): Promise<void>;
@@ -25,6 +26,17 @@ export class DeleteCustomerHandlerImpl implements DeleteCustomerHandler {
       throw new Error('Customer is not found');
     }
 
+    const { image } = customer.getProps();
+
+    let filePath;
+    if (image) {
+      filePath = `./images/customer-avatar/${image}`;
+    }
+
     await this.customerRepo.delete(params.id);
+
+    if (filePath) {
+      await unlink(filePath);
+    }
   }
 }
