@@ -12,12 +12,9 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Request, Express, Response } from 'express';
-import { diskStorage } from 'multer';
-import { extname } from 'path';
-import { UploadPaymentProofHandler } from './uploda-payment-proof.dto.request';
+import { UploadPaymentProofHandler } from './upload-payment-proof.handler';
 import { UPLOAD_PAYMENT_PROOF_HANDLER } from 'src/transactions/transaction.constants';
 import filenameGenerator from 'src/shared/filename-generator';
-import { writeFile } from 'fs/promises';
 
 @Controller()
 export class UploadPaymentProofController {
@@ -42,11 +39,11 @@ export class UploadPaymentProofController {
 
     const filename = filenameGenerator(file.fieldname, file.originalname);
 
-    const filePath = `./images/payment-proof/${filename}`;
-
-    await this.handler.execute({ id, attachment: file.filename });
-
-    await writeFile(filePath, file.buffer);
+    await this.handler.execute({
+      id,
+      attachment_filename: filename,
+      attachment_buffer: file.buffer,
+    });
 
     res.status(HttpStatus.OK);
 
