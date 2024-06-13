@@ -17,7 +17,7 @@ import { UpdateStatusToApprovedController } from './use-cases/commands/update-st
 import { ListTransactionHandlerImpl } from './use-cases/queries/list-transaction/list-transaction.handler';
 import { ListTransactionController } from './use-cases/queries/list-transaction/list-transaction.controller';
 import { UploadPaymentProofController } from './use-cases/commands/upload-payment-proof/upload-payment-proof.controller';
-import { UploadPaymentProofHandlerImpl } from './use-cases/commands/upload-payment-proof/uploda-payment-proof.dto.request';
+import { UploadPaymentProofHandlerImpl } from './use-cases/commands/upload-payment-proof/upload-payment-proof.handler';
 
 @Module({
   controllers: [

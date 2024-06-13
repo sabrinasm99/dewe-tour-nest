@@ -35,7 +35,7 @@ export class InsertTransactionHandlerImpl implements InsertTransactionHandler {
       status: STATUS.WAITING_PAYMENT,
       attachment: null,
       trip_id: params.trip_id,
-      booking_date: params.booking_date,
+      booking_date: new Date(),
     });
 
     await this.transactionRepo.insert(transaction);
