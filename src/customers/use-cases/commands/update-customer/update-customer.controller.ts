@@ -13,7 +13,6 @@ import { UPDATE_CUSTOMER_HANDLER } from 'src/customers/customer.constants';
 import { Request } from 'express';
 import filenameGenerator from 'src/shared/filename-generator';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { writeFile } from 'fs/promises';
 
 @Controller()
 export class UpdateCustomerController {
@@ -39,11 +38,12 @@ export class UpdateCustomerController {
     if (file) {
       const filename = filenameGenerator(file.fieldname, file.originalname);
 
-      await this.handler.execute({ id, ...body, image: filename });
-
-      const filePath = `./images/customer-avatar/${filename}`;
-
-      await writeFile(filePath, file.buffer);
+      await this.handler.execute({
+        id,
+        ...body,
+        image_filename: filename,
+        image_buffer: file.buffer,
+      });
     } else {
       await this.handler.execute({ id, ...body });
     }

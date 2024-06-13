@@ -10,6 +10,7 @@ import {
   saltRounds,
 } from 'src/customers/customer.constants';
 import { hash } from 'bcrypt';
+import { unlink, writeFile } from 'fs/promises';
 
 export interface UpdateCustomerHandler {
   execute(params: UpdateCustomerDTORequest): Promise<Customer>;
@@ -54,16 +55,33 @@ export class UpdateCustomerHandlerImpl implements UpdateCustomerHandler {
       customer.updateGender(params.gender);
     }
 
-    if (params.image) {
-      customer.updateImage(params.image);
-    }
-
     if (params.password) {
       const hashedPass = await hash(params.password, saltRounds);
       customer.updatePassword(hashedPass);
     }
 
+    let oldPath, newPath;
+    const { image } = customer.getProps();
+
+    if (image) {
+      oldPath = `./images/customer-avatar/${image}`;
+    }
+
+    if (params.image_filename) {
+      newPath = `./images/customer-avatar/${params.image_filename}`;
+      customer.updateImage(params.image_filename);
+    }
+
     await this.customerRepo.update(customer);
+
+    if (oldPath && newPath) {
+      await unlink(oldPath);
+      await writeFile(newPath, params.image_buffer);
+    }
+
+    if (!oldPath && newPath) {
+      await writeFile(newPath, params.image_buffer);
+    }
 
     return customer;
   }

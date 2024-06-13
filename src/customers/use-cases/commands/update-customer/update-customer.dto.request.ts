@@ -9,7 +9,8 @@ export const UpdateCustomerDTORequestSchema = z.object({
   address: z.string().optional(),
   is_admin: z.boolean().optional(),
   gender: z.enum(['male', 'female']).optional(),
-  image: z.string().optional(),
+  image_filename: z.string().optional(),
+  image_buffer: z.instanceof(Buffer).optional(),
 });
 
 export type UpdateCustomerDTORequest = z.infer<
