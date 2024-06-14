@@ -4,7 +4,7 @@ import {
   UploadPaymentProofDTORequestSchema,
 } from './upload-payment-proof.dto.request';
 import { TransactionRepository } from 'src/transactions/repositories/transaction.repository';
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { TRANSACTION_REPOSITORY } from 'src/transactions/transaction.constants';
 import { unlink, writeFile } from 'fs/promises';
 
@@ -27,7 +27,7 @@ export class UploadPaymentProofHandlerImpl
     const transaction = await this.transactionRepo.findById(params.id);
 
     if (!transaction) {
-      throw new Error('Transaction is not found');
+      throw new NotFoundException('Transaction is not found');
     }
 
     let oldPath;

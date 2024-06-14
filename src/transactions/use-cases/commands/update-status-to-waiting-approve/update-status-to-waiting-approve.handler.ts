@@ -3,7 +3,7 @@ import {
   Transaction,
 } from 'src/transactions/domain/transaction.domain';
 import { TransactionRepository } from 'src/transactions/repositories/transaction.repository';
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import {
   UpdateStatusToWaitingApproveDTORequest,
   UpdateStatusToWaitingApproveDTORequestSchema,
@@ -29,7 +29,7 @@ export class UpdateStatusToWaitingApproveHandlerImpl
     const transaction = await this.transactionRepo.findById(params.id);
 
     if (!transaction) {
-      throw new Error('Transaction is not found');
+      throw new NotFoundException('Transaction is not found');
     }
 
     transaction.updateStatus(STATUS.WAITING_APPROVE);

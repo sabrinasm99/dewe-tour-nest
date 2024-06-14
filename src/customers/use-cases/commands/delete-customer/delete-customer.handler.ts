@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CUSTOMER_REPOSITORY } from 'src/customers/customer.constants';
 import { CustomerRepository } from 'src/customers/repositories/customer.repository';
 import {
@@ -23,7 +23,7 @@ export class DeleteCustomerHandlerImpl implements DeleteCustomerHandler {
     const customer = await this.customerRepo.findById(params.id);
 
     if (!customer) {
-      throw new Error('Customer is not found');
+      throw new NotFoundException('Customer is not found');
     }
 
     const { image } = customer.getProps();

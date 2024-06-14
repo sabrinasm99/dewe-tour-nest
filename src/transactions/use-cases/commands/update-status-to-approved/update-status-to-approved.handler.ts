@@ -7,7 +7,7 @@ import {
   UpdateStatusToApprovedDTORequest,
   UpdateStatusToApprovedDTORequestSchema,
 } from './update-status-to-approved.dto.request';
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { TRANSACTION_REPOSITORY } from 'src/transactions/transaction.constants';
 
 export interface UpdateStatusToApprovedHandler {
@@ -29,7 +29,7 @@ export class UpdateStatusToApprovedHandlerImpl
     const transaction = await this.transactionRepo.findById(params.id);
 
     if (!transaction) {
-      throw new Error('Transaction is not found');
+      throw new NotFoundException('Transaction is not found');
     }
 
     transaction.updateStatus(STATUS.APPROVED);

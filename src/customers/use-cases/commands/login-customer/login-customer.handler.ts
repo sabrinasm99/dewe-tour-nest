@@ -5,7 +5,12 @@ import {
 } from './login-customer.dto.request';
 import { Customer } from 'src/customers/domain/customer.domain';
 import { compare } from 'bcrypt';
-import { Inject, Injectable } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { CUSTOMER_REPOSITORY } from 'src/customers/customer.constants';
 import { sign } from 'jsonwebtoken';
 
@@ -29,7 +34,7 @@ export class LoginCustomerHandlerImpl implements LoginCustomerHandler {
     const customer = await this.customerRepo.findByEmail(params.email);
 
     if (!customer) {
-      throw new Error('Customer is not found');
+      throw new NotFoundException('Customer is not found');
     }
 
     // check password
@@ -37,7 +42,7 @@ export class LoginCustomerHandlerImpl implements LoginCustomerHandler {
     const validatedPass = await compare(params.password, savedPass);
 
     if (!validatedPass) {
-      throw new Error('Email or password invalid');
+      throw new UnauthorizedException('Email or password invalid');
     }
 
     const token = sign({ id: customerId }, 'loginpass');

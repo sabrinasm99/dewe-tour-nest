@@ -3,7 +3,7 @@ import {
   DeleteTripDTORequest,
   DeleteTripDTORequestSchema,
 } from './delete-trip.dto.request';
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { TRIP_REPOSITORY } from 'src/trips/trip.constants';
 import { unlink } from 'fs/promises';
 
@@ -21,7 +21,7 @@ export class DeleteTripHandlerImpl implements DeleteTripHandler {
     const trip = await this.tripRepo.findById(params.id);
 
     if (!trip) {
-      throw new Error('Trip is not found');
+      throw new NotFoundException('Trip is not found');
     }
 
     const { image } = trip.getProps();

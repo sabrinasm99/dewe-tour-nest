@@ -4,7 +4,7 @@ import {
   UpdateTripDTORequestSchema,
 } from './update-trip.dto.request';
 import { TripRepository } from 'src/trips/repositories/trip.repository';
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { TRIP_REPOSITORY } from 'src/trips/trip.constants';
 import { unlink, writeFile } from 'fs/promises';
 
@@ -22,7 +22,7 @@ export class UpdateTripHandlerImpl implements UpdateTripHandler {
     const trip = await this.tripRepo.findById(params.id);
 
     if (!trip) {
-      throw new Error('Trip is not found');
+      throw new NotFoundException('Trip is not found');
     }
 
     if (params.title) {

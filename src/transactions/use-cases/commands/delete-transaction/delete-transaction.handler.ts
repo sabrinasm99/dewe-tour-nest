@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import {
   DeleteTransactionDTORequest,
   DeleteTransactionDTORequestSchema,
@@ -24,7 +24,7 @@ export class DeleteTransactionHandlerImpl implements DeleteTransactionHandler {
     const transaction = await this.transactionRepo.findById(params.id);
 
     if (!transaction) {
-      throw new Error('Transaction is not found');
+      throw new NotFoundException('Transaction is not found');
     }
 
     const { attachment } = transaction.getProps();

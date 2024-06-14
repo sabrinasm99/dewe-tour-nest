@@ -4,7 +4,7 @@ import {
   UpdateCustomerDTORequestSchema,
 } from './update-customer.dto.request';
 import { CustomerRepository } from 'src/customers/repositories/customer.repository';
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import {
   CUSTOMER_REPOSITORY,
   saltRounds,
@@ -28,7 +28,7 @@ export class UpdateCustomerHandlerImpl implements UpdateCustomerHandler {
     const customer = await this.customerRepo.findById(params.id);
 
     if (!customer) {
-      throw new Error('Customer is not found');
+      throw new NotFoundException('Customer is not found');
     }
 
     if (params.name) {
