@@ -29,6 +29,8 @@ import { DeleteCustomerController } from './customers/use-cases/commands/delete-
 import { InsertTransactionController } from './transactions/use-cases/commands/insert-transaction/insert-transaction.controller';
 import { UploadPaymentProofController } from './transactions/use-cases/commands/upload-payment-proof/upload-payment-proof.controller';
 import { UpdateStatusToWaitingApproveController } from './transactions/use-cases/commands/update-status-to-waiting-approve/update-status-to-waiting-approve.controller';
+import { ListTransactionByCustomerController } from './transactions/use-cases/queries/list-transaction-by-customer/list-transaction-by-customer.controller';
+import { FindTransactionByIdController } from './transactions/use-cases/queries/find-transaction-by-id/find-transaction-by-id.controller';
 
 @Module({
   imports: [
@@ -76,6 +78,8 @@ export class AppModule implements NestModule {
         InsertTransactionController,
         UploadPaymentProofController,
         UpdateStatusToWaitingApproveController,
+        ListTransactionByCustomerController,
+        FindTransactionByIdController,
       );
 
     consumer

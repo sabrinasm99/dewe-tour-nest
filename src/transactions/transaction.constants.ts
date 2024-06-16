@@ -9,3 +9,9 @@ export const UPDATE_STATUS_TO_APPROVED_HANDLER = Symbol(
 );
 export const UPLOAD_PAYMENT_PROOF_HANDLER = Symbol('UploadPaymentProofHandler');
 export const DELETE_TRANSACTION_HANDLER = Symbol('DeleteTransactionHandler');
+export const LIST_TRANSACTION_BY_CUSTOMER_HANDLER = Symbol(
+  'ListTransactionByCustomerHandler',
+);
+export const FIND_TRANSACTION_BY_ID_HANDLER = Symbol(
+  'FindTransactionByIdHandler',
+);
