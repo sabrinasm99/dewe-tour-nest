@@ -15,6 +15,20 @@ import { CustomerModule } from './customers/customer.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { AuthenticationMiddleware } from './middleware/authentication/authentication.middleware';
+import { CheckAdminMiddleware } from './middleware/authentication/check-admin.middleware';
+import { ListCustomerController } from './customers/use-cases/queries/list-customer/list-customer.controller';
+import { ListCountryController } from './countries/use-cases/queries/list-country/list-country.controller';
+import { InsertCountryController } from './countries/use-cases/commands/insert-country/insert-country.controller';
+import { InsertTripController } from './trips/use-cases/commands/insert-trip/insert-trip.controller';
+import { UpdateTripController } from './trips/use-cases/commands/update-trip/update-trip.controller';
+import { DeleteTripController } from './trips/use-cases/commands/delete-trip/delete-trip.controller';
+import { UpdateStatusToApprovedController } from './transactions/use-cases/commands/update-status-to-approved/update-status-to-approved.controller';
+import { DeleteTransactionController } from './transactions/use-cases/commands/delete-transaction/delete-transaction.controller';
+import { UpdateCustomerController } from './customers/use-cases/commands/update-customer/update-customer.controller';
+import { DeleteCustomerController } from './customers/use-cases/commands/delete-customer/delete-customer.controller';
+import { InsertTransactionController } from './transactions/use-cases/commands/insert-transaction/insert-transaction.controller';
+import { UploadPaymentProofController } from './transactions/use-cases/commands/upload-payment-proof/upload-payment-proof.controller';
+import { UpdateStatusToWaitingApproveController } from './transactions/use-cases/commands/update-status-to-waiting-approve/update-status-to-waiting-approve.controller';
 
 @Module({
   imports: [
@@ -56,10 +70,25 @@ export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(AuthenticationMiddleware)
-      .exclude(
-        { path: 'trips', method: RequestMethod.GET },
-        { path: 'customers', method: RequestMethod.POST },
-      )
-      .forRoutes('customers', 'countries', 'trips', 'transactions');
+      .forRoutes(
+        UpdateCustomerController,
+        DeleteCustomerController,
+        InsertTransactionController,
+        UploadPaymentProofController,
+        UpdateStatusToWaitingApproveController,
+      );
+
+    consumer
+      .apply(AuthenticationMiddleware, CheckAdminMiddleware)
+      .forRoutes(
+        ListCustomerController,
+        ListCountryController,
+        InsertCountryController,
+        InsertTripController,
+        UpdateTripController,
+        DeleteTripController,
+        UpdateStatusToApprovedController,
+        DeleteTransactionController,
+      );
   }
 }

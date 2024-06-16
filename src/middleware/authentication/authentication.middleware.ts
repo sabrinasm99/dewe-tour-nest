@@ -18,6 +18,7 @@ export class AuthenticationMiddleware implements NestMiddleware {
       const verified = verify(token, 'loginpass');
 
       if (verified) {
+        res.locals = { user: verified };
         next();
       }
     } catch (error) {
