@@ -3,7 +3,6 @@ import {
   LoginCustomerDTORequest,
   LoginCustomerDTORequestSchema,
 } from './login-customer.dto.request';
-import { Customer } from 'src/customers/domain/customer.domain';
 import { compare } from 'bcrypt';
 import {
   Inject,
@@ -38,14 +37,18 @@ export class LoginCustomerHandlerImpl implements LoginCustomerHandler {
     }
 
     // check password
-    const { password: savedPass, id: customerId } = customer.getProps();
+    const {
+      password: savedPass,
+      id: customerId,
+      is_admin,
+    } = customer.getProps();
     const validatedPass = await compare(params.password, savedPass);
 
     if (!validatedPass) {
       throw new UnauthorizedException('Email or password invalid');
     }
 
-    const token = sign({ id: customerId }, 'loginpass');
+    const token = sign({ id: customerId, isAdmin: is_admin }, 'loginpass');
 
     return { id: customerId, token };
   }
