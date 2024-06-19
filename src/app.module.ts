@@ -32,6 +32,7 @@ import { UpdateStatusToWaitingApproveController } from './transactions/use-cases
 import { ListTransactionByCustomerController } from './transactions/use-cases/queries/list-transaction-by-customer/list-transaction-by-customer.controller';
 import { FindTransactionByIdController } from './transactions/use-cases/queries/find-transaction-by-id/find-transaction-by-id.controller';
 import { FindCustomerByIdController } from './customers/use-cases/queries/find-customer-by-id/find-customer-by-id.controller';
+import { FindTripByIdController } from './trips/use-cases/queries/find-trip-by-id/find-trip-by-id.controller';
 
 @Module({
   imports: [
@@ -82,6 +83,7 @@ export class AppModule implements NestModule {
         ListTransactionByCustomerController,
         FindTransactionByIdController,
         FindCustomerByIdController,
+        FindTripByIdController,
       );
 
     consumer

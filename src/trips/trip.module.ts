@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { InsertTripController } from './use-cases/commands/insert-trip/insert-trip.controller';
 import {
   DELETE_TRIP_HANDLER,
+  FIND_TRIP_BY_ID_HANDLER,
   INSERT_TRIP_HANDLER,
   LIST_TRIP_HANDLER,
   TRIP_REPOSITORY,
@@ -15,6 +16,8 @@ import { UpdateTripHandlerImpl } from './use-cases/commands/update-trip/update-t
 import { DeleteTripHandlerImpl } from './use-cases/commands/delete-trip/delete-trip.handler';
 import { UpdateTripController } from './use-cases/commands/update-trip/update-trip.controller';
 import { DeleteTripController } from './use-cases/commands/delete-trip/delete-trip.controller';
+import { FindTripByIdHandlerImpl } from './use-cases/queries/find-trip-by-id/find-trip-by-id.handler';
+import { FindTripByIdController } from './use-cases/queries/find-trip-by-id/find-trip-by-id.controller';
 
 @Module({
   controllers: [
@@ -22,6 +25,7 @@ import { DeleteTripController } from './use-cases/commands/delete-trip/delete-tr
     ListTripController,
     UpdateTripController,
     DeleteTripController,
+    FindTripByIdController,
   ],
   providers: [
     {
@@ -43,6 +47,10 @@ import { DeleteTripController } from './use-cases/commands/delete-trip/delete-tr
     {
       provide: DELETE_TRIP_HANDLER,
       useClass: DeleteTripHandlerImpl,
+    },
+    {
+      provide: FIND_TRIP_BY_ID_HANDLER,
+      useClass: FindTripByIdHandlerImpl,
     },
   ],
 })
