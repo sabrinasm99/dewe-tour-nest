@@ -1,5 +1,10 @@
 import { z } from 'zod';
 
+export enum GENDER {
+  MALE = 'male',
+  FEMALE = 'female',
+}
+
 const CustomerSchema = z.object({
   id: z.string().uuid(),
   name: z.string(),
@@ -8,7 +13,7 @@ const CustomerSchema = z.object({
   phone: z.string(),
   address: z.string(),
   is_admin: z.boolean().optional(),
-  gender: z.enum(['male', 'female']),
+  gender: z.nativeEnum(GENDER),
   image: z.string().nullable().optional(),
 });
 
@@ -46,7 +51,7 @@ export class Customer {
     this.props.is_admin = CustomerSchema.shape.is_admin.parse(isAdmin);
   }
 
-  updateGender(gender: string) {
+  updateGender(gender: GENDER) {
     this.props.gender = CustomerSchema.shape.gender.parse(gender);
   }
 

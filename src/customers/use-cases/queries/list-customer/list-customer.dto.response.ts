@@ -1,3 +1,4 @@
+import { GENDER } from 'src/customers/domain/customer.domain';
 import { z } from 'zod';
 
 export const ListCustomerDTOResponseSchema = z.array(
@@ -8,7 +9,7 @@ export const ListCustomerDTOResponseSchema = z.array(
     phone: z.string(),
     address: z.string(),
     is_admin: z.boolean(),
-    gender: z.enum(['male', 'female']),
+    gender: z.nativeEnum(GENDER),
     image: z.string().nullable(),
   }),
 );

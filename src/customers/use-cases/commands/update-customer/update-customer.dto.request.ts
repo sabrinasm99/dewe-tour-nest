@@ -1,3 +1,4 @@
+import { GENDER } from 'src/customers/domain/customer.domain';
 import { z } from 'zod';
 
 export const UpdateCustomerDTORequestSchema = z.object({
@@ -8,7 +9,7 @@ export const UpdateCustomerDTORequestSchema = z.object({
   phone: z.string().optional(),
   address: z.string().optional(),
   is_admin: z.boolean().optional(),
-  gender: z.enum(['male', 'female']).optional(),
+  gender: z.nativeEnum(GENDER).optional(),
   image_filename: z.string().optional(),
   image_buffer: z.instanceof(Buffer).optional(),
 });

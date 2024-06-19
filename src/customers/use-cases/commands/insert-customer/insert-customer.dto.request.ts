@@ -1,3 +1,4 @@
+import { GENDER } from 'src/customers/domain/customer.domain';
 import { z } from 'zod';
 
 export const InsertCustomerDTORequestSchema = z.object({
@@ -7,7 +8,7 @@ export const InsertCustomerDTORequestSchema = z.object({
   phone: z.string(),
   address: z.string(),
   is_admin: z.boolean().optional(),
-  gender: z.enum(['male', 'female']),
+  gender: z.nativeEnum(GENDER),
   image: z.string().optional(),
 });
 
