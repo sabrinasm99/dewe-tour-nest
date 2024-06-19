@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import {
   CUSTOMER_REPOSITORY,
   DELETE_CUSTOMER_HANDLER,
+  FIND_CUSTOMER_BY_ID_HANDLER,
   INSERT_CUSTOMER_HANDLER,
   LIST_CUSTOMER_HANDLER,
   LOGIN_CUSTOMER_HANDLER,
@@ -18,6 +19,8 @@ import { DeleteCustomerHandlerImpl } from './use-cases/commands/delete-customer/
 import { ListCustomerController } from './use-cases/queries/list-customer/list-customer.controller';
 import { LoginCustomerHandlerImpl } from './use-cases/commands/login-customer/login-customer.handler';
 import { LoginCustomerController } from './use-cases/commands/login-customer/login-customer.controller';
+import { FindCustomerByIdController } from './use-cases/queries/find-customer-by-id/find-customer-by-id.controller';
+import { FindCustomerByIdHandlerImpl } from './use-cases/queries/find-customer-by-id/find-customer-by-id.handler';
 
 @Module({
   controllers: [
@@ -26,6 +29,7 @@ import { LoginCustomerController } from './use-cases/commands/login-customer/log
     DeleteCustomerController,
     ListCustomerController,
     LoginCustomerController,
+    FindCustomerByIdController,
   ],
   providers: [
     { provide: CUSTOMER_REPOSITORY, useClass: CustomerPgRepository },
@@ -48,6 +52,10 @@ import { LoginCustomerController } from './use-cases/commands/login-customer/log
     {
       provide: LOGIN_CUSTOMER_HANDLER,
       useClass: LoginCustomerHandlerImpl,
+    },
+    {
+      provide: FIND_CUSTOMER_BY_ID_HANDLER,
+      useClass: FindCustomerByIdHandlerImpl,
     },
   ],
 })

@@ -31,6 +31,7 @@ import { UploadPaymentProofController } from './transactions/use-cases/commands/
 import { UpdateStatusToWaitingApproveController } from './transactions/use-cases/commands/update-status-to-waiting-approve/update-status-to-waiting-approve.controller';
 import { ListTransactionByCustomerController } from './transactions/use-cases/queries/list-transaction-by-customer/list-transaction-by-customer.controller';
 import { FindTransactionByIdController } from './transactions/use-cases/queries/find-transaction-by-id/find-transaction-by-id.controller';
+import { FindCustomerByIdController } from './customers/use-cases/queries/find-customer-by-id/find-customer-by-id.controller';
 
 @Module({
   imports: [
@@ -80,6 +81,7 @@ export class AppModule implements NestModule {
         UpdateStatusToWaitingApproveController,
         ListTransactionByCustomerController,
         FindTransactionByIdController,
+        FindCustomerByIdController,
       );
 
     consumer
