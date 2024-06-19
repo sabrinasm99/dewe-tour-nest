@@ -30,7 +30,7 @@ export class FindTransactionByIdHandlerImpl
     );
 
     const transformed = await FindTransactionByIdDTOResponseSchema.parseAsync(
-      response.rows,
+      response.rows[0],
     );
 
     return transformed;
