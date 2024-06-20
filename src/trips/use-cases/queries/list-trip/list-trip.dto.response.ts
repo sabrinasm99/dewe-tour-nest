@@ -4,7 +4,7 @@ export const ListTripDTOResponseSchema = z.array(
   z.object({
     id: z.string().uuid(),
     title: z.string(),
-    country_id: z.string().uuid(),
+    country: z.string(),
     quota: z.number().int().nonnegative(),
     booked_slots: z.number().int().nonnegative(),
     accomodation: z.string(),

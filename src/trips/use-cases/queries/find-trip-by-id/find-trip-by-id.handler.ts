@@ -21,7 +21,7 @@ export class FindTripByIdHandlerImpl implements FindTripByIdHandler {
     params = FindTripByIdDTORequestSchema.parse(params);
 
     const response = await this.client.query(
-      'SELECT * FROM trips WHERE id = $1',
+      'SELECT trips.id, trips.title, row_to_json(countries) AS country, trips.quota, trips.booked_slots, trips.accomodation, trips.eat, trips.days, trips.nights, trips.date, trips.price, trips.description, trips.image FROM trips INNER JOIN countries ON trips.country_id = countries.id WHERE trips.id = $1',
       [params.id],
     );
 

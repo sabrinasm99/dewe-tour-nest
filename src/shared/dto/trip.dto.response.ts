@@ -1,7 +1,7 @@
+import { CountryDTOResponseSchema } from 'src/shared/dto/country.dto.response';
 import { z } from 'zod';
-import { CountryDTOResponseSchema } from '../../../../shared/dto/country.dto.response';
 
-export const FindTripByIdDTOResponseSchema = z.object({
+export const TripDTOResponseSchema = z.object({
   id: z.string().uuid(),
   title: z.string(),
   country: CountryDTOResponseSchema,
@@ -11,12 +11,8 @@ export const FindTripByIdDTOResponseSchema = z.object({
   eat: z.string(),
   days: z.number().int().nonnegative(),
   nights: z.number().int().nonnegative(),
-  date: z.date(),
+  date: z.string().transform((val) => new Date(val)),
   price: z.number().int().nonnegative(),
   description: z.string(),
   image: z.string(),
 });
-
-export type FindTripByIdDTOResponse = z.infer<
-  typeof FindTripByIdDTOResponseSchema
->;
