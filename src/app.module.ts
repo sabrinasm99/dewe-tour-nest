@@ -83,7 +83,6 @@ export class AppModule implements NestModule {
         ListTransactionByCustomerController,
         FindTransactionByIdController,
         FindCustomerByIdController,
-        FindTripByIdController,
       );
 
     consumer
