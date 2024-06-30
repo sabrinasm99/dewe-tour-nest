@@ -13,10 +13,10 @@ export class LoginCustomerController {
   async login(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
     const body = req.body;
 
-    const { id, token } = await this.handler.execute({ ...body });
+    const { id, token, isAdmin } = await this.handler.execute({ ...body });
 
     res.status(HttpStatus.OK);
 
-    return { message: 'Success', data: { id, token } };
+    return { message: 'Success', data: { id, token, isAdmin } };
   }
 }

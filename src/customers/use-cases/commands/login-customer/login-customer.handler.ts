@@ -16,6 +16,7 @@ import { sign } from 'jsonwebtoken';
 export type LoginResultProps = {
   id: string;
   token: string;
+  isAdmin: boolean;
 };
 export interface LoginCustomerHandler {
   execute(params: LoginCustomerDTORequest): Promise<LoginResultProps>;
@@ -48,8 +49,11 @@ export class LoginCustomerHandlerImpl implements LoginCustomerHandler {
       throw new UnauthorizedException('Email or password invalid');
     }
 
-    const token = sign({ id: customerId, isAdmin: is_admin }, 'loginpass');
+    const token = sign(
+      { id: customerId, isAdmin: is_admin },
+      process.env.JWT_PASS,
+    );
 
-    return { id: customerId, token };
+    return { id: customerId, token, isAdmin: is_admin };
   }
 }

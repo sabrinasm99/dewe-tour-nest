@@ -11,9 +11,16 @@ import {
   saltRounds,
 } from 'src/customers/customer.constants';
 import { hash } from 'bcrypt';
+import { sign } from 'jsonwebtoken';
+
+type RegisterResultProps = {
+  id: string;
+  token: string;
+  isAdmin: boolean;
+};
 
 export interface InsertCustomerHandler {
-  execute(params: InsertCustomerDTORequest): Promise<Customer>;
+  execute(params: InsertCustomerDTORequest): Promise<RegisterResultProps>;
 }
 
 @Injectable()
@@ -29,6 +36,9 @@ export class InsertCustomerHandlerImpl implements InsertCustomerHandler {
 
     const hashedPass = await hash(params.password, saltRounds);
 
+    const isAdmin =
+      params.is_admin && params.is_admin === true ? params.is_admin : false;
+
     const customer = Customer.create({
       id,
       name: params.name,
@@ -36,11 +46,14 @@ export class InsertCustomerHandlerImpl implements InsertCustomerHandler {
       password: hashedPass,
       phone: params.phone,
       address: params.address,
+      is_admin: isAdmin,
       gender: params.gender,
     });
 
     await this.customerRepo.insert(customer);
 
-    return customer;
+    const token = sign({ id, isAdmin }, process.env.JWT_PASS);
+
+    return { id, token, isAdmin };
   }
 }

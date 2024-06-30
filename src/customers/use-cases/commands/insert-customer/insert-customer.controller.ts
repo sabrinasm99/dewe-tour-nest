@@ -9,14 +9,12 @@ export class InsertCustomerController {
     @Inject(INSERT_CUSTOMER_HANDLER) private handler: InsertCustomerHandler,
   ) {}
 
-  @Post('/customers')
+  @Post('/register')
   async insert(@Req() req: Request) {
     const body = req.body;
 
-    const customer = await this.handler.execute({ ...body });
+    const { id, token, isAdmin } = await this.handler.execute({ ...body });
 
-    const { id } = customer.getProps();
-
-    return { message: 'Success', data: { id } };
+    return { message: 'Success', data: { id, token, isAdmin } };
   }
 }
