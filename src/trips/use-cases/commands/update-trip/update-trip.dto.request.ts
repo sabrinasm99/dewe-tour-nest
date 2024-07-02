@@ -7,6 +7,7 @@ export const UpdateTripDTORequestSchema = z.object({
   quota: z.number().int().nonnegative().optional(),
   booked_slots: z.number().int().nonnegative().optional(),
   accomodation: z.string().optional(),
+  transportation: z.string().optional(),
   eat: z.string().optional(),
   days: z.number().int().nonnegative().optional(),
   nights: z.number().int().nonnegative().optional(),

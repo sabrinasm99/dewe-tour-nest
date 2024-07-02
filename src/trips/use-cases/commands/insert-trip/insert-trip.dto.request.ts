@@ -5,6 +5,7 @@ export const InsertTripDTORequestSchema = z.object({
   country_id: z.string().uuid(),
   quota: z.number().int().nonnegative(),
   accomodation: z.string(),
+  transportation: z.string(),
   eat: z.string(),
   days: z.number().int().nonnegative(),
   nights: z.number().int().nonnegative(),

@@ -40,6 +40,8 @@ export class UpdateTripController {
       id,
       ...body,
       quota: !isNaN(Number(body.quota)) && Number(body.quota),
+      booked_slots:
+        !isNaN(Number(body.booked_slots)) && Number(body.booked_slots),
       days: !isNaN(Number(body.days)) && Number(body.days),
       nights: !isNaN(Number(body.nights)) && Number(body.nights),
       date: body.date && new Date(body.date),

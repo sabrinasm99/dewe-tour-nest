@@ -14,6 +14,7 @@ export async function up(knex: Knex): Promise<void> {
     table.integer('quota').notNullable();
     table.integer('booked_slots').notNullable().defaultTo(0);
     table.string('accomodation').notNullable();
+    table.string('transportation').notNullable();
     table.string('eat').notNullable();
     table.integer('days').notNullable();
     table.integer('nights').notNullable();

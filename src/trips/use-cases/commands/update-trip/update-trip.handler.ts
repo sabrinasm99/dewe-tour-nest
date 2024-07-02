@@ -45,6 +45,10 @@ export class UpdateTripHandlerImpl implements UpdateTripHandler {
       trip.updateAccomodation(params.accomodation);
     }
 
+    if (params.transportation) {
+      trip.updateTransportation(params.transportation);
+    }
+
     if (params.eat) {
       trip.updateEat(params.eat);
     }

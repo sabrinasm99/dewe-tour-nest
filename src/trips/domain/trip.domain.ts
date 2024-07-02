@@ -5,8 +5,9 @@ const TripSchema = z.object({
   title: z.string(),
   country_id: z.string().uuid(),
   quota: z.number().int().nonnegative(),
-  booked_slots: z.number().int().nonnegative(),
+  booked_slots: z.number().int().nonnegative().optional(),
   accomodation: z.string(),
+  transportation: z.string(),
   eat: z.string(),
   days: z.number().int().nonnegative(),
   nights: z.number().int().nonnegative(),
@@ -44,6 +45,11 @@ export class Trip {
 
   updateBookedSlots(bookedSlots: number) {
     this.props.booked_slots = TripSchema.shape.booked_slots.parse(bookedSlots);
+  }
+
+  updateTransportation(transportation: string) {
+    this.props.transportation =
+      TripSchema.shape.transportation.parse(transportation);
   }
 
   updateAccomodation(accomodation: string) {
