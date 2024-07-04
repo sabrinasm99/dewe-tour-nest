@@ -12,7 +12,14 @@ export const ListTransactionByCustomerDTOResponseSchema = z.array(
     status: z.nativeEnum(STATUS),
     attachment: z.string().nullable(),
     trip: TripDTOResponseSchema,
-    booking_date: z.date(),
+    booking_date: z.date().transform((val) => {
+      const newDate = new Date(val);
+      const day = newDate.toLocaleDateString('en-US', { weekday: 'long' });
+      const date = newDate.getDate();
+      const month = newDate.toLocaleString('default', { month: 'long' });
+      const year = newDate.getFullYear();
+      return `${day}, ${date} ${month} ${year}`;
+    }),
   }),
 );
 
