@@ -8,6 +8,7 @@ export const FindTripByIdDTOResponseSchema = z.object({
   quota: z.number().int().nonnegative(),
   booked_slots: z.number().int().nonnegative(),
   accomodation: z.string(),
+  transportation: z.string(),
   eat: z.string(),
   days: z.number().int().nonnegative(),
   nights: z.number().int().nonnegative(),
