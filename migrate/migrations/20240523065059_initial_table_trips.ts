@@ -20,7 +20,7 @@ export async function up(knex: Knex): Promise<void> {
     table.integer('nights').notNullable();
     table.timestamp('date', { useTz: true }).notNullable();
     table.integer('price').notNullable();
-    table.string('description').notNullable();
+    table.text('description').notNullable();
     table.string('image').notNullable();
   });
 }
