@@ -35,14 +35,16 @@ export class InsertTripHandlerImpl implements InsertTripHandler {
       date: params.date,
       price: params.price,
       description: params.description,
-      image: params.image_filename,
+      image: params.images_filename.toString(),
     });
 
     await this.tripRepo.insert(trip);
 
-    const filePath = `./images/trip-picture/${params.image_filename}`;
-
-    await writeFile(filePath, params.image_buffer);
+    for (let i = 0; i < params.images_filename.length; i++) {
+      const filePath = `./images/trip-picture/${params.images_filename[i]}`;
+      const fileBuffer = params.images_buffer[i];
+      await writeFile(filePath, fileBuffer);
+    }
 
     return trip;
   }

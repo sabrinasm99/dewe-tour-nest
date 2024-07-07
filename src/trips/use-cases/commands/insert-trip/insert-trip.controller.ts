@@ -5,10 +5,10 @@ import {
   ParseFilePipe,
   Post,
   Req,
-  UploadedFile,
+  UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { FilesInterceptor } from '@nestjs/platform-express';
 import { Request } from 'express';
 import { InsertTripHandler } from './insert-trip.handler';
 import { INSERT_TRIP_HANDLER } from 'src/trips/trip.constants';
@@ -21,19 +21,25 @@ export class InsertTripController {
   ) {}
 
   @Post('/trips')
-  @UseInterceptors(FileInterceptor('image'))
+  @UseInterceptors(FilesInterceptor('image'))
   async insert(
     @Req() req: Request,
-    @UploadedFile(
+    @UploadedFiles(
       new ParseFilePipe({
         validators: [new FileTypeValidator({ fileType: /(jpg|jpeg|png)$/ })],
       }),
     )
-    file: Express.Multer.File,
+    files: Array<Express.Multer.File>,
   ) {
     const body = req.body;
 
-    const filename = filenameGenerator(file.fieldname, file.originalname);
+    const filenames = [];
+    const fileBuffers = [];
+
+    files.forEach((file) => {
+      filenames.push(filenameGenerator(file.fieldname, file.originalname));
+      fileBuffers.push(file.buffer);
+    });
 
     const trip = await this.handler.execute({
       ...body,
@@ -42,8 +48,8 @@ export class InsertTripController {
       nights: Number(body.nights),
       date: new Date(body.date),
       price: Number(body.price),
-      image_filename: filename,
-      image_buffer: file.buffer,
+      images_filename: filenames,
+      images_buffer: fileBuffers,
     });
 
     const { id } = trip.getProps();

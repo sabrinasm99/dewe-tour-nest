@@ -12,8 +12,8 @@ export const InsertTripDTORequestSchema = z.object({
   date: z.date(),
   price: z.number().int().nonnegative(),
   description: z.string(),
-  image_filename: z.string(),
-  image_buffer: z.instanceof(Buffer),
+  images_filename: z.array(z.string()),
+  images_buffer: z.array(z.instanceof(Buffer)),
 });
 
 export type InsertTripDTORequest = z.infer<typeof InsertTripDTORequestSchema>;
