@@ -8,8 +8,23 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { TRIP_REPOSITORY } from 'src/trips/trip.constants';
 import { unlink, writeFile } from 'fs/promises';
 
+type NewDetailedImagesProps = {
+  filePath: string;
+  fileBuffer: Buffer;
+};
 export interface UpdateTripHandler {
   execute(params: UpdateTripDTORequest): Promise<Trip>;
+}
+
+async function writeDetailedImages(
+  newDetailedImages: NewDetailedImagesProps[],
+) {
+  for (let i = 0; i < newDetailedImages.length; i++) {
+    await writeFile(
+      newDetailedImages[i].filePath,
+      newDetailedImages[i].fileBuffer,
+    );
+  }
 }
 
 @Injectable()
@@ -73,27 +88,61 @@ export class UpdateTripHandlerImpl implements UpdateTripHandler {
       trip.updateDescription(params.description);
     }
 
-    let newPath, oldPath;
-    const { image } = trip.getProps();
+    let newCoverImagePath: string,
+      oldCoverImagePath: string,
+      newDetailedImages: NewDetailedImagesProps[],
+      oldDetailedImagesPath: string[];
 
-    if (image) {
-      oldPath = `./images/trip-picture/${image}`;
+    const { cover_image, detailed_images } = trip.getProps();
+
+    if (cover_image) {
+      oldCoverImagePath = `./images/trip-picture/${cover_image}`;
     }
 
-    if (params.image_filename) {
-      newPath = `./images/trip-picture/${params.image_filename}`;
-      trip.updateImage(params.image_filename);
+    if (params.cover_image) {
+      newCoverImagePath = `./images/trip-picture/${params.cover_image.filename}`;
+      trip.updateCoverImage(params.cover_image.filename);
+    }
+
+    if (detailed_images) {
+      oldDetailedImagesPath = detailed_images
+        .split(',')
+        .map((image) => `./images/trip-picture/${image}`);
+    }
+
+    if (params.detailed_images) {
+      newDetailedImages = params.detailed_images.map((image) => {
+        return {
+          filePath: `./images/trip-picture/${image.filename}`,
+          fileBuffer: image.file_buffer,
+        };
+      });
+      trip.updateDetailedImages(
+        params.detailed_images.map((image) => image.filename).toString(),
+      );
     }
 
     await this.tripRepo.update(trip);
 
-    if (oldPath && newPath) {
-      await unlink(oldPath);
-      await writeFile(newPath, params.image_buffer);
+    if (oldCoverImagePath && newCoverImagePath) {
+      await unlink(oldCoverImagePath);
+      await writeFile(newCoverImagePath, params.cover_image.file_buffer);
     }
 
-    if (!oldPath && newPath) {
-      await writeFile(newPath, params.image_buffer);
+    if (!oldCoverImagePath && newCoverImagePath) {
+      await writeFile(newCoverImagePath, params.cover_image.file_buffer);
+    }
+
+    if (oldDetailedImagesPath && newDetailedImages) {
+      for (let i = 0; i < oldDetailedImagesPath.length; i++) {
+        await unlink(oldDetailedImagesPath[i]);
+      }
+
+      await writeDetailedImages(newDetailedImages);
+    }
+
+    if (!oldDetailedImagesPath && newDetailedImages) {
+      await writeDetailedImages(newDetailedImages);
     }
 
     return trip;

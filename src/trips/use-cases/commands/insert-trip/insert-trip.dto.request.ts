@@ -1,3 +1,5 @@
+import { CoverImageDTO } from 'src/trips/shared/dtos/cover-image.dto.request';
+import { DetailedImagesDTO } from 'src/trips/shared/dtos/detailed-images.dto.request';
 import { z } from 'zod';
 
 export const InsertTripDTORequestSchema = z.object({
@@ -12,8 +14,8 @@ export const InsertTripDTORequestSchema = z.object({
   date: z.date(),
   price: z.number().int().nonnegative(),
   description: z.string(),
-  images_filename: z.array(z.string()),
-  images_buffer: z.array(z.instanceof(Buffer)),
+  cover_image: CoverImageDTO,
+  detailed_images: DetailedImagesDTO,
 });
 
 export type InsertTripDTORequest = z.infer<typeof InsertTripDTORequestSchema>;

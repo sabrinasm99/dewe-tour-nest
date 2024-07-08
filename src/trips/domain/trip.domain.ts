@@ -14,7 +14,8 @@ const TripSchema = z.object({
   date: z.date(),
   price: z.number().int().nonnegative(),
   description: z.string(),
-  image: z.string(),
+  cover_image: z.string(),
+  detailed_images: z.string(),
 });
 
 export type TripProps = z.infer<typeof TripSchema>;
@@ -80,7 +81,11 @@ export class Trip {
     this.props.description = TripSchema.shape.description.parse(description);
   }
 
-  updateImage(image: string) {
-    this.props.image = TripSchema.shape.image.parse(image);
+  updateCoverImage(image: string) {
+    this.props.cover_image = TripSchema.shape.cover_image.parse(image);
+  }
+
+  updateDetailedImages(images: string) {
+    this.props.detailed_images = TripSchema.shape.detailed_images.parse(images);
   }
 }
