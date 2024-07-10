@@ -24,17 +24,30 @@ export class DeleteTripHandlerImpl implements DeleteTripHandler {
       throw new NotFoundException('Trip is not found');
     }
 
-    const { image } = trip.getProps();
+    const { cover_image, detailed_images } = trip.getProps();
 
-    let filePath;
-    if (image) {
-      filePath = `./images/trip-picture/${image}`;
+    let coverImagePath: string, detailedImagesPath: string[];
+
+    if (cover_image) {
+      coverImagePath = `./images/trip-picture/${cover_image}`;
+    }
+
+    if (detailed_images) {
+      detailedImagesPath = detailed_images
+        .split(',')
+        .map((image) => `./images/trip-picture/${image}`);
     }
 
     await this.tripRepo.delete(params.id);
 
-    if (filePath) {
-      await unlink(filePath);
+    if (coverImagePath) {
+      await unlink(coverImagePath);
+    }
+
+    if (detailedImagesPath) {
+      for (let i = 0; i < detailedImagesPath.length; i++) {
+        await unlink(detailedImagesPath[i]);
+      }
     }
   }
 }
