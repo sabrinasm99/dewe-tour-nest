@@ -12,10 +12,17 @@ export const FindTripByIdDTOResponseSchema = z.object({
   eat: z.string(),
   days: z.number().int().nonnegative(),
   nights: z.number().int().nonnegative(),
-  date: z.date(),
+  date: z.date().transform((val) => {
+    const newDate = new Date(val);
+    const date = newDate.getDate();
+    const month = newDate.toLocaleString('default', { month: 'long' });
+    const year = newDate.getFullYear();
+    return `${date} ${month} ${year}`;
+  }),
   price: z.number().int().nonnegative(),
   description: z.string(),
-  image: z.string(),
+  cover_image: z.string(),
+  detailed_images: z.string().transform((images) => images.split(',')),
 });
 
 export type FindTripByIdDTOResponse = z.infer<
