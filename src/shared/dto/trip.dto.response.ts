@@ -21,5 +21,6 @@ export const TripDTOResponseSchema = z.object({
   }),
   price: z.number().int().nonnegative(),
   description: z.string(),
-  image: z.string(),
+  cover_image: z.string(),
+  detailed_images: z.string().transform((images) => images.split(',')),
 });
