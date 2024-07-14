@@ -12,13 +12,7 @@ export const FindTripByIdDTOResponseSchema = z.object({
   eat: z.string(),
   days: z.number().int().nonnegative(),
   nights: z.number().int().nonnegative(),
-  date: z.date().transform((val) => {
-    const newDate = new Date(val);
-    const date = newDate.getDate();
-    const month = newDate.toLocaleString('default', { month: 'long' });
-    const year = newDate.getFullYear();
-    return `${date} ${month} ${year}`;
-  }),
+  date: z.date(),
   price: z.number().int().nonnegative(),
   description: z.string(),
   cover_image: z.string(),
