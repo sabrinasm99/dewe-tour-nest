@@ -18,6 +18,7 @@ export const UpdateTripDTORequestSchema = z.object({
   description: z.string().optional(),
   cover_image: CoverImageDTO.optional(),
   detailed_images: DetailedImagesDTO.optional(),
+  deleted_detailed_images: z.array(z.string()).optional(),
 });
 
 export type UpdateTripDTORequest = z.infer<typeof UpdateTripDTORequestSchema>;

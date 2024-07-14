@@ -90,8 +90,10 @@ export class UpdateTripHandlerImpl implements UpdateTripHandler {
 
     let newCoverImagePath: string,
       oldCoverImagePath: string,
-      newDetailedImages: NewDetailedImagesProps[],
-      oldDetailedImagesPath: string[];
+      newDetailedImagesPath: NewDetailedImagesProps[],
+      deletedDetailedImagesPath: string[],
+      newDetailedImages: string[],
+      updatedDetailedImages: string[];
 
     const { cover_image, detailed_images } = trip.getProps();
 
@@ -104,22 +106,34 @@ export class UpdateTripHandlerImpl implements UpdateTripHandler {
       trip.updateCoverImage(params.cover_image.filename);
     }
 
-    if (detailed_images) {
-      oldDetailedImagesPath = detailed_images
-        .split(',')
-        .map((image) => `./images/trip-picture/${image}`);
+    let oldDetailedImages = detailed_images.split(',');
+
+    if (params.deleted_detailed_images) {
+      deletedDetailedImagesPath = params.deleted_detailed_images.map(
+        (image) => `./images/trip-picture/${image}`,
+      );
+
+      params.deleted_detailed_images.forEach((image) => {
+        oldDetailedImages = oldDetailedImages.filter(
+          (oldImage) => oldImage !== image,
+        );
+      });
     }
 
     if (params.detailed_images) {
-      newDetailedImages = params.detailed_images.map((image) => {
+      newDetailedImagesPath = params.detailed_images.map((image) => {
         return {
           filePath: `./images/trip-picture/${image.filename}`,
           fileBuffer: image.file_buffer,
         };
       });
-      trip.updateDetailedImages(
-        params.detailed_images.map((image) => image.filename).toString(),
-      );
+
+      newDetailedImages = params.detailed_images.map((image) => image.filename);
+    }
+
+    if (newDetailedImages) {
+      updatedDetailedImages = [...oldDetailedImages, ...newDetailedImages];
+      trip.updateDetailedImages(updatedDetailedImages.toString());
     }
 
     await this.tripRepo.update(trip);
@@ -133,16 +147,16 @@ export class UpdateTripHandlerImpl implements UpdateTripHandler {
       await writeFile(newCoverImagePath, params.cover_image.file_buffer);
     }
 
-    if (oldDetailedImagesPath && newDetailedImages) {
-      for (let i = 0; i < oldDetailedImagesPath.length; i++) {
-        await unlink(oldDetailedImagesPath[i]);
+    if (deletedDetailedImagesPath && newDetailedImagesPath) {
+      for (let i = 0; i < deletedDetailedImagesPath.length; i++) {
+        await unlink(deletedDetailedImagesPath[i]);
       }
 
-      await writeDetailedImages(newDetailedImages);
+      await writeDetailedImages(newDetailedImagesPath);
     }
 
-    if (!oldDetailedImagesPath && newDetailedImages) {
-      await writeDetailedImages(newDetailedImages);
+    if (!deletedDetailedImagesPath && newDetailedImagesPath) {
+      await writeDetailedImages(newDetailedImagesPath);
     }
 
     return trip;

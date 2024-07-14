@@ -66,6 +66,10 @@ export class UpdateTripController {
             };
           })
         : undefined,
+      deleted_detailed_images:
+        typeof body.deleted_detailed_images === 'string'
+          ? body.deleted_detailed_images.split()
+          : body.deleted_detailed_images,
     };
 
     await this.handler.execute({
