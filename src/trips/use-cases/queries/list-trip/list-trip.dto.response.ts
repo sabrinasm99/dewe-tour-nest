@@ -1,10 +1,11 @@
+import { CountryDTOResponseSchema } from 'src/shared/dto/country.dto.response';
 import { z } from 'zod';
 
 export const ListTripDTOResponseSchema = z.array(
   z.object({
     id: z.string().uuid(),
     title: z.string(),
-    country: z.string(),
+    country: CountryDTOResponseSchema,
     quota: z.number().int().nonnegative(),
     booked_slots: z.number().int().nonnegative(),
     accomodation: z.string(),
