@@ -53,5 +53,6 @@ import { FindTripByIdController } from './use-cases/queries/find-trip-by-id/find
       useClass: FindTripByIdHandlerImpl,
     },
   ],
+  exports: [TRIP_REPOSITORY],
 })
 export class TripModule {}

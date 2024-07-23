@@ -10,6 +10,8 @@ import { TransactionRepository } from 'src/transactions/repositories/transaction
 import { v4 } from 'uuid';
 import { Inject, Injectable } from '@nestjs/common';
 import { TRANSACTION_REPOSITORY } from 'src/transactions/transaction.constants';
+import { TripRepository } from 'src/trips/repositories/trip.repository';
+import { TRIP_REPOSITORY } from 'src/trips/trip.constants';
 
 export interface InsertTransactionHandler {
   execute(params: InsertTransactionDTORequest): Promise<Transaction>;
@@ -20,10 +22,23 @@ export class InsertTransactionHandlerImpl implements InsertTransactionHandler {
   constructor(
     @Inject(TRANSACTION_REPOSITORY)
     private transactionRepo: TransactionRepository,
+    @Inject(TRIP_REPOSITORY) private tripPgRepository: TripRepository,
   ) {}
 
   async execute(params: InsertTransactionDTORequest) {
     params = InsertTransactionDTORequestSchema.parse(params);
+
+    const trip = await this.tripPgRepository.findById(params.trip_id);
+
+    if (!trip) {
+      throw new Error('Trip is not found');
+    }
+
+    const { booked_slots, quota } = trip.getProps();
+
+    if (booked_slots + params.quantity > quota) {
+      throw new Error('Your order quantity exceeds the available quota');
+    }
 
     const id = v4();
 

@@ -28,8 +28,10 @@ import { ListTransactionByCustomerController } from './use-cases/queries/list-tr
 import { FindTransactionByIdHandlerImpl } from './use-cases/queries/find-transaction-by-id/find-transaction-by-id.handler';
 import { FindTransactionByIdController } from './use-cases/queries/find-transaction-by-id/find-transaction-by-id.controller';
 import { UnitOfWorkTransactionTrip } from 'src/unit-of-work/uow-transaction-trip';
+import { TripModule } from 'src/trips/trip.module';
 
 @Module({
+  imports: [TripModule],
   controllers: [
     InsertTransactionController,
     UpdateStatusToWaitingApproveController,
