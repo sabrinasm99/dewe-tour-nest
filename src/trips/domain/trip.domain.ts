@@ -45,7 +45,8 @@ export class Trip {
   }
 
   updateBookedSlots(bookedSlots: number) {
-    this.props.booked_slots = TripSchema.shape.booked_slots.parse(bookedSlots);
+    const slots = TripSchema.shape.booked_slots.parse(bookedSlots);
+    this.props.booked_slots += slots;
   }
 
   updateTransportation(transportation: string) {

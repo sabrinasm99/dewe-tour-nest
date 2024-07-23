@@ -9,6 +9,7 @@ import {
 } from './update-status-to-approved.dto.request';
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { TRANSACTION_REPOSITORY } from 'src/transactions/transaction.constants';
+import { UnitOfWorkTransactionTrip } from 'src/unit-of-work/uow-transaction-trip';
 
 export interface UpdateStatusToApprovedHandler {
   execute(params: UpdateStatusToApprovedDTORequest): Promise<Transaction>;
@@ -21,6 +22,7 @@ export class UpdateStatusToApprovedHandlerImpl
   constructor(
     @Inject(TRANSACTION_REPOSITORY)
     private transactionRepo: TransactionRepository,
+    private unitOfWork: UnitOfWorkTransactionTrip,
   ) {}
 
   async execute(params: UpdateStatusToApprovedDTORequest) {
@@ -34,7 +36,24 @@ export class UpdateStatusToApprovedHandlerImpl
 
     transaction.updateStatus(STATUS.APPROVED);
 
-    await this.transactionRepo.update(transaction);
+    const uowFactory = await this.unitOfWork.start();
+    const { trip_id, quantity } = transaction.getProps();
+
+    try {
+      await uowFactory.transactionPgRepository.update(transaction);
+
+      const trip = await uowFactory.tripPgRepository.findById(trip_id);
+      trip.updateBookedSlots(quantity);
+
+      await uowFactory.tripPgRepository.update(trip);
+
+      uowFactory.commit();
+    } catch (error) {
+      await uowFactory.rollback();
+      throw error;
+    } finally {
+      uowFactory.release();
+    }
 
     return transaction;
   }

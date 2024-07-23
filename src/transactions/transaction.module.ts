@@ -27,6 +27,7 @@ import { ListTransactionByCustomerHandlerImpl } from './use-cases/queries/list-t
 import { ListTransactionByCustomerController } from './use-cases/queries/list-transaction-by-customer/list-transaction-by-customer.controller';
 import { FindTransactionByIdHandlerImpl } from './use-cases/queries/find-transaction-by-id/find-transaction-by-id.handler';
 import { FindTransactionByIdController } from './use-cases/queries/find-transaction-by-id/find-transaction-by-id.controller';
+import { UnitOfWorkTransactionTrip } from 'src/unit-of-work/uow-transaction-trip';
 
 @Module({
   controllers: [
@@ -76,6 +77,7 @@ import { FindTransactionByIdController } from './use-cases/queries/find-transact
       provide: FIND_TRANSACTION_BY_ID_HANDLER,
       useClass: FindTransactionByIdHandlerImpl,
     },
+    UnitOfWorkTransactionTrip,
   ],
 })
 export class TransactionModule {}
