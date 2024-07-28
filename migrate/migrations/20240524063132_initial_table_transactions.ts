@@ -8,8 +8,8 @@ export async function up(knex: Knex): Promise<void> {
       .notNullable()
       .references('id')
       .inTable('customers')
-      .onUpdate('CASCADE')
-      .onDelete('CASCADE');
+      .onUpdate('RESTRICT')
+      .onDelete('RESTRICT');
     table.integer('quantity').notNullable();
     table.integer('total_payment').notNullable();
     table
@@ -21,9 +21,17 @@ export async function up(knex: Knex): Promise<void> {
       .notNullable()
       .references('id')
       .inTable('trips')
-      .onUpdate('CASCADE')
-      .onDelete('CASCADE');
+      .onUpdate('RESTRICT')
+      .onDelete('RESTRICT');
     table.timestamp('booking_date', { useTz: true }).notNullable();
+    table
+      .timestamp('created_at', { useTz: true })
+      .defaultTo(knex.fn.now())
+      .notNullable();
+    table
+      .timestamp('updated_at', { useTz: true })
+      .defaultTo(knex.fn.now())
+      .notNullable();
   });
 }
 

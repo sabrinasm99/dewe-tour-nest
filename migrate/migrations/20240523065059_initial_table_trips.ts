@@ -9,8 +9,8 @@ export async function up(knex: Knex): Promise<void> {
       .notNullable()
       .references('id')
       .inTable('countries')
-      .onUpdate('CASCADE')
-      .onDelete('CASCADE');
+      .onUpdate('RESTRICT')
+      .onDelete('RESTRICT');
     table.integer('quota').notNullable();
     table.integer('booked_slots').notNullable().defaultTo(0);
     table.string('accomodation').notNullable();
@@ -23,6 +23,14 @@ export async function up(knex: Knex): Promise<void> {
     table.text('description').notNullable();
     table.string('cover_image').notNullable();
     table.text('detailed_images').notNullable();
+    table
+      .timestamp('created_at', { useTz: true })
+      .defaultTo(knex.fn.now())
+      .notNullable();
+    table
+      .timestamp('updated_at', { useTz: true })
+      .defaultTo(knex.fn.now())
+      .notNullable();
   });
 }
 

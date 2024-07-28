@@ -11,6 +11,14 @@ export async function up(knex: Knex): Promise<void> {
     table.boolean('is_admin').notNullable().defaultTo(false);
     table.enum('gender', ['male', 'female']).notNullable();
     table.string('image').nullable();
+    table
+      .timestamp('created_at', { useTz: true })
+      .defaultTo(knex.fn.now())
+      .notNullable();
+    table
+      .timestamp('updated_at', { useTz: true })
+      .defaultTo(knex.fn.now())
+      .notNullable();
   });
 }
 
