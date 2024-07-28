@@ -10,8 +10,9 @@ export class CountryPgRepository implements CountryRepository {
   async insert(country: Country): Promise<void> {
     const props = country.getProps();
 
-    const text = 'INSERT INTO countries(id, name) VALUES($1, $2) RETURNING *';
-    const values = [props.id, props.name];
+    const text =
+      'INSERT INTO countries(id, name, created_at, updated_at) VALUES($1, $2, $3, $4) RETURNING *';
+    const values = [props.id, props.name, props.created_at, props.updated_at];
 
     await this.client.query(text, values);
   }

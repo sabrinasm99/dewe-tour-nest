@@ -23,7 +23,12 @@ export class InsertCountryHandlerImpl implements InsertCountryHandler {
 
     const id = v4();
 
-    const country = Country.create({ id, name: params.name });
+    const country = Country.create({
+      id,
+      name: params.name,
+      created_at: new Date(),
+      updated_at: new Date(),
+    });
 
     await this.countryRepo.insert(country);
 
