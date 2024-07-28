@@ -48,6 +48,8 @@ export class InsertCustomerHandlerImpl implements InsertCustomerHandler {
       address: params.address,
       is_admin: isAdmin,
       gender: params.gender,
+      created_at: new Date(),
+      updated_at: new Date(),
     });
 
     await this.customerRepo.insert(customer);

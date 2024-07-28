@@ -23,7 +23,7 @@ export class FindCustomerByIdHandlerImpl implements FindCustomerByIdHandler {
     params = FindCustomerByIdDTORequestSchema.parse(params);
 
     const response = await this.client.query(
-      'SELECT * FROM customers WHERE id = $1',
+      'SELECT id, name, email, phone, address, is_admin, gender, image, created_at, updated_at FROM customers WHERE id = $1',
       [params.id],
     );
 

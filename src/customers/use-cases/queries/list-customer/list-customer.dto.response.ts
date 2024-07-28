@@ -11,6 +11,8 @@ export const ListCustomerDTOResponseSchema = z.array(
     is_admin: z.boolean(),
     gender: z.nativeEnum(GENDER),
     image: z.string().nullable(),
+    created_at: z.date(),
+    updated_at: z.date(),
   }),
 );
 
