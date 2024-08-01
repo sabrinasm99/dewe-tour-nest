@@ -23,4 +23,6 @@ export const TripDTOResponseSchema = z.object({
   description: z.string(),
   cover_image: z.string(),
   detailed_images: z.string().transform((images) => images.split(',')),
+  created_at: z.string().transform((val) => new Date(val)),
+  updated_at: z.string().transform((val) => new Date(val)),
 });
