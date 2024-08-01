@@ -6,3 +6,4 @@ export const DELETE_CUSTOMER_HANDLER = Symbol('DeleteCustomerHandler');
 export const LOGIN_CUSTOMER_HANDLER = Symbol('LoginCustomerHandler');
 export const FIND_CUSTOMER_BY_ID_HANDLER = Symbol('FindCustomerByIdHandler');
 export const saltRounds = 10;
+export const customerImagesDir = './images/customer-avatar';

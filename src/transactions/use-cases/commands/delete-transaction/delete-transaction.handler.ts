@@ -5,7 +5,10 @@ import {
 } from './delete-transaction.dto.request';
 import { TransactionRepository } from 'src/transactions/repositories/transaction.repository';
 import { unlink } from 'fs/promises';
-import { TRANSACTION_REPOSITORY } from 'src/transactions/transaction.constants';
+import {
+  paymentImagesDir,
+  TRANSACTION_REPOSITORY,
+} from 'src/transactions/transaction.constants';
 
 export interface DeleteTransactionHandler {
   execute(params: DeleteTransactionDTORequest): Promise<void>;
@@ -31,7 +34,7 @@ export class DeleteTransactionHandlerImpl implements DeleteTransactionHandler {
 
     let filePath;
     if (attachment) {
-      filePath = `./images/payment-proof/${attachment}`;
+      filePath = `${paymentImagesDir}/${attachment}`;
     }
 
     await this.transactionRepo.delete(params.id);

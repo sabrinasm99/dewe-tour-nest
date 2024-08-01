@@ -6,8 +6,9 @@ import {
 import { TripRepository } from 'src/trips/repositories/trip.repository';
 import { v4 } from 'uuid';
 import { Inject, Injectable } from '@nestjs/common';
-import { TRIP_REPOSITORY } from 'src/trips/trip.constants';
+import { TRIP_REPOSITORY, tripImagesDir } from 'src/trips/trip.constants';
 import { writeFile } from 'fs/promises';
+import { existsSync, mkdirSync } from 'fs';
 
 export interface InsertTripHandler {
   execute(params: InsertTripDTORequest): Promise<Trip>;
@@ -45,11 +46,15 @@ export class InsertTripHandlerImpl implements InsertTripHandler {
 
     await this.tripRepo.insert(trip);
 
-    const filePath = `./images/trip-picture/${params.cover_image.filename}`;
+    if (!existsSync(tripImagesDir)) {
+      mkdirSync(tripImagesDir);
+    }
+
+    const filePath = `${tripImagesDir}/${params.cover_image.filename}`;
     await writeFile(filePath, params.cover_image.file_buffer);
 
     for (let i = 0; i < params.detailed_images.length; i++) {
-      const filePath = `./images/trip-picture/${params.detailed_images[i].filename}`;
+      const filePath = `${tripImagesDir}/${params.detailed_images[i].filename}`;
       const fileBuffer = params.detailed_images[i].file_buffer;
       await writeFile(filePath, fileBuffer);
     }

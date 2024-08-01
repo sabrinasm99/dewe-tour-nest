@@ -15,3 +15,4 @@ export const LIST_TRANSACTION_BY_CUSTOMER_HANDLER = Symbol(
 export const FIND_TRANSACTION_BY_ID_HANDLER = Symbol(
   'FindTransactionByIdHandler',
 );
+export const paymentImagesDir = './images/payment-proof';

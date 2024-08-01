@@ -5,7 +5,7 @@ import {
 } from './update-trip.dto.request';
 import { TripRepository } from 'src/trips/repositories/trip.repository';
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { TRIP_REPOSITORY } from 'src/trips/trip.constants';
+import { TRIP_REPOSITORY, tripImagesDir } from 'src/trips/trip.constants';
 import { unlink, writeFile } from 'fs/promises';
 
 type NewDetailedImagesProps = {
@@ -98,11 +98,11 @@ export class UpdateTripHandlerImpl implements UpdateTripHandler {
     const { cover_image, detailed_images } = trip.getProps();
 
     if (cover_image) {
-      oldCoverImagePath = `./images/trip-picture/${cover_image}`;
+      oldCoverImagePath = `${tripImagesDir}/${cover_image}`;
     }
 
     if (params.cover_image) {
-      newCoverImagePath = `./images/trip-picture/${params.cover_image.filename}`;
+      newCoverImagePath = `${tripImagesDir}/${params.cover_image.filename}`;
       trip.updateCoverImage(params.cover_image.filename);
     }
 
@@ -110,7 +110,7 @@ export class UpdateTripHandlerImpl implements UpdateTripHandler {
 
     if (params.deleted_detailed_images) {
       deletedDetailedImagesPath = params.deleted_detailed_images.map(
-        (image) => `./images/trip-picture/${image}`,
+        (image) => `${tripImagesDir}/${image}`,
       );
 
       params.deleted_detailed_images.forEach((image) => {
@@ -123,7 +123,7 @@ export class UpdateTripHandlerImpl implements UpdateTripHandler {
     if (params.detailed_images) {
       newDetailedImagesPath = params.detailed_images.map((image) => {
         return {
-          filePath: `./images/trip-picture/${image.filename}`,
+          filePath: `${tripImagesDir}/${image.filename}`,
           fileBuffer: image.file_buffer,
         };
       });

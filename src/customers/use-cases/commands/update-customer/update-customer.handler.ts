@@ -7,10 +7,12 @@ import { CustomerRepository } from 'src/customers/repositories/customer.reposito
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import {
   CUSTOMER_REPOSITORY,
+  customerImagesDir,
   saltRounds,
 } from 'src/customers/customer.constants';
 import { hash } from 'bcrypt';
 import { unlink, writeFile } from 'fs/promises';
+import { existsSync, mkdirSync } from 'fs';
 
 export interface UpdateCustomerHandler {
   execute(params: UpdateCustomerDTORequest): Promise<Customer>;
@@ -64,15 +66,19 @@ export class UpdateCustomerHandlerImpl implements UpdateCustomerHandler {
     const { image } = customer.getProps();
 
     if (image) {
-      oldPath = `./images/customer-avatar/${image}`;
+      oldPath = `${customerImagesDir}/${image}`;
     }
 
     if (params.image_filename) {
-      newPath = `./images/customer-avatar/${params.image_filename}`;
+      newPath = `${customerImagesDir}/${params.image_filename}`;
       customer.updateImage(params.image_filename);
     }
 
     await this.customerRepo.update(customer);
+
+    if (!existsSync(customerImagesDir)) {
+      mkdirSync(customerImagesDir);
+    }
 
     if (oldPath && newPath) {
       await unlink(oldPath);

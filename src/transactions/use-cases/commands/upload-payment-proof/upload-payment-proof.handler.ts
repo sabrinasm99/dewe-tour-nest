@@ -5,8 +5,12 @@ import {
 } from './upload-payment-proof.dto.request';
 import { TransactionRepository } from 'src/transactions/repositories/transaction.repository';
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { TRANSACTION_REPOSITORY } from 'src/transactions/transaction.constants';
+import {
+  paymentImagesDir,
+  TRANSACTION_REPOSITORY,
+} from 'src/transactions/transaction.constants';
 import { unlink, writeFile } from 'fs/promises';
+import { existsSync, mkdirSync } from 'fs';
 
 export interface UploadPaymentProofHandler {
   execute(params: UploadPaymentProofDTORequest): Promise<Transaction>;
@@ -34,14 +38,18 @@ export class UploadPaymentProofHandlerImpl
     const { attachment } = transaction.getProps();
 
     if (attachment) {
-      oldPath = `./images/payment-proof/${attachment}`;
+      oldPath = `${paymentImagesDir}/${attachment}`;
     }
 
-    const newPath = `./images/payment-proof/${params.attachment_filename}`;
+    const newPath = `${paymentImagesDir}/${params.attachment_filename}`;
 
     transaction.updateAttachment(params.attachment_filename);
 
     await this.transactionRepo.update(transaction);
+
+    if (!existsSync(paymentImagesDir)) {
+      mkdirSync(paymentImagesDir);
+    }
 
     if (oldPath) {
       await unlink(oldPath);

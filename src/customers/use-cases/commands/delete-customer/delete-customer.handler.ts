@@ -1,5 +1,8 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { CUSTOMER_REPOSITORY } from 'src/customers/customer.constants';
+import {
+  CUSTOMER_REPOSITORY,
+  customerImagesDir,
+} from 'src/customers/customer.constants';
 import { CustomerRepository } from 'src/customers/repositories/customer.repository';
 import {
   DeleteCustomerDTORequest,
@@ -30,7 +33,7 @@ export class DeleteCustomerHandlerImpl implements DeleteCustomerHandler {
 
     let filePath;
     if (image) {
-      filePath = `./images/customer-avatar/${image}`;
+      filePath = `${customerImagesDir}/${image}`;
     }
 
     await this.customerRepo.delete(params.id);
