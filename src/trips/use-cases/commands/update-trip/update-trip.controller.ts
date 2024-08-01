@@ -56,6 +56,7 @@ export class UpdateTripController {
               files.cover_image[0].fieldname,
               files.cover_image[0].originalname,
             ),
+            file_buffer: files.cover_image[0].buffer,
           }
         : undefined,
       detailed_images: files.detailed_images

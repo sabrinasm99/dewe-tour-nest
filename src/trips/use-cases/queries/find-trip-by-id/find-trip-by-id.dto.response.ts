@@ -17,6 +17,8 @@ export const FindTripByIdDTOResponseSchema = z.object({
   description: z.string(),
   cover_image: z.string(),
   detailed_images: z.string().transform((images) => images.split(',')),
+  created_at: z.date(),
+  updated_at: z.date(),
 });
 
 export type FindTripByIdDTOResponse = z.infer<

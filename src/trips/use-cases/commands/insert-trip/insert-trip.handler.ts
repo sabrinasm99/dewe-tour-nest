@@ -39,6 +39,8 @@ export class InsertTripHandlerImpl implements InsertTripHandler {
       detailed_images: params.detailed_images
         .map((image) => image.filename)
         .toString(),
+      created_at: new Date(),
+      updated_at: new Date(),
     });
 
     await this.tripRepo.insert(trip);

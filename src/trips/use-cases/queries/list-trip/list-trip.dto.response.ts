@@ -24,6 +24,8 @@ export const ListTripDTOResponseSchema = z.array(
     description: z.string(),
     cover_image: z.string(),
     detailed_images: z.string().transform((images) => images.split(',')),
+    created_at: z.date(),
+    updated_at: z.date(),
   }),
 );
 

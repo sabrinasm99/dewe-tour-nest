@@ -11,7 +11,7 @@ export class TripPgRepository implements TripRepository {
     const props = trip.getProps();
 
     const text =
-      'INSERT INTO trips(id, title, country_id, quota, accomodation, transportation, eat, days, nights, date, price, description, cover_image, detailed_images) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING *';
+      'INSERT INTO trips(id, title, country_id, quota, accomodation, transportation, eat, days, nights, date, price, description, cover_image, detailed_images, created_at, updated_at) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16) RETURNING *';
     const values = [
       props.id,
       props.title,
@@ -27,6 +27,8 @@ export class TripPgRepository implements TripRepository {
       props.description,
       props.cover_image,
       props.detailed_images,
+      props.created_at,
+      props.updated_at,
     ];
 
     await this.client.query(text, values);
@@ -36,7 +38,7 @@ export class TripPgRepository implements TripRepository {
     const props = trip.getProps();
 
     const text =
-      'UPDATE trips SET title = $1, country_id = $2, quota = $3, booked_slots = $4, accomodation = $5, transportation = $6, eat = $7, days = $8, nights = $9, date = $10, price = $11, description = $12, cover_image = $13, detailed_images = $14 WHERE id = $15';
+      'UPDATE trips SET title = $1, country_id = $2, quota = $3, booked_slots = $4, accomodation = $5, transportation = $6, eat = $7, days = $8, nights = $9, date = $10, price = $11, description = $12, cover_image = $13, detailed_images = $14, updated_at = $15 WHERE id = $16';
     const values = [
       props.title,
       props.country_id,
@@ -52,6 +54,7 @@ export class TripPgRepository implements TripRepository {
       props.description,
       props.cover_image,
       props.detailed_images,
+      props.updated_at,
       props.id,
     ];
 
