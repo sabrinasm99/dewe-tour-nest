@@ -10,7 +10,7 @@ export class CustomerPgRepository implements CustomerRepository {
   async insert(customer: Customer): Promise<void> {
     const props = customer.getProps();
     const text =
-      'INSERT INTO customers(id, name, email, password, phone, address, gender, created_at, updated_at) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *';
+      'INSERT INTO customers(id, name, email, password, phone, address, is_admin, gender, created_at, updated_at) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *';
 
     const values = [
       props.id,
@@ -19,6 +19,7 @@ export class CustomerPgRepository implements CustomerRepository {
       props.password,
       props.phone,
       props.address,
+      props.is_admin,
       props.gender,
       props.created_at,
       props.updated_at,
@@ -28,8 +29,7 @@ export class CustomerPgRepository implements CustomerRepository {
   }
 
   async findById(id: string): Promise<Customer | null> {
-    const text =
-      'SELECT id, name, email, phone, address, is_admin, gender, created_at, updated_at FROM customers WHERE id = $1';
+    const text = 'SELECT * FROM customers WHERE id = $1';
     const value = [id];
 
     const result = await this.client.query(text, value);
@@ -70,8 +70,7 @@ export class CustomerPgRepository implements CustomerRepository {
   }
 
   async findByEmail(email: string) {
-    const text =
-      'SELECT id, name, email, phone, address, is_admin, gender, created_at, updated_at FROM customers WHERE email = $1';
+    const text = 'SELECT * FROM customers WHERE email = $1';
     const value = [email];
 
     const result = await this.client.query(text, value);
