@@ -4,7 +4,7 @@ import { TripDTOResponseSchema } from 'src/shared/dto/trip.dto.response';
 import { z } from 'zod';
 
 export const FindTransactionByIdDTOResponseSchema = z.object({
-  id: z.string().uuid(),
+  id: z.number(),
   customer: CustomerDTOResponseSchema,
   quantity: z.number().int().nonnegative(),
   total_payment: z.number().int().nonnegative(),
@@ -19,6 +19,8 @@ export const FindTransactionByIdDTOResponseSchema = z.object({
     const year = newDate.getFullYear();
     return `${day}, ${date} ${month} ${year}`;
   }),
+  created_at: z.date(),
+  updated_at: z.date(),
 });
 
 export type FindTransactionByIdDTOResponse = z.infer<

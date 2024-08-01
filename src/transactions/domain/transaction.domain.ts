@@ -7,7 +7,7 @@ export enum STATUS {
 }
 
 const TransactionSchema = z.object({
-  id: z.string().uuid(),
+  id: z.number().optional(),
   customer_id: z.string().uuid(),
   quantity: z.number().int().nonnegative(),
   total_payment: z.number().int().nonnegative(),
@@ -15,6 +15,8 @@ const TransactionSchema = z.object({
   attachment: z.string().nullable(),
   trip_id: z.string().uuid(),
   booking_date: z.date(),
+  created_at: z.date(),
+  updated_at: z.date(),
 });
 
 export type TransactionProps = z.infer<typeof TransactionSchema>;
@@ -33,9 +35,15 @@ export class Transaction {
 
   updateStatus(status: STATUS) {
     this.props.status = TransactionSchema.shape.status.parse(status);
+    this.update();
   }
 
   updateAttachment(fileName: string) {
     this.props.attachment = TransactionSchema.shape.attachment.parse(fileName);
+    this.update();
+  }
+
+  private update() {
+    this.props.updated_at = new Date();
   }
 }

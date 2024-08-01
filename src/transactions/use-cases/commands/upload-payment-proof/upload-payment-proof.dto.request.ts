@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const UploadPaymentProofDTORequestSchema = z.object({
-  id: z.string().uuid(),
+  id: z.number(),
   attachment_filename: z.string(),
   attachment_buffer: z.instanceof(Buffer),
 });

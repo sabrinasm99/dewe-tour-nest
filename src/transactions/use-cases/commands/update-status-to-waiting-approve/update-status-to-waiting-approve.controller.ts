@@ -14,7 +14,7 @@ export class UpdateStatusToWaitingApproveController {
   async pay(@Req() req: Request) {
     const { id } = req.params;
 
-    await this.handler.execute({ id });
+    await this.handler.execute({ id: Number(id) });
 
     return { message: 'Success', data: { id } };
   }

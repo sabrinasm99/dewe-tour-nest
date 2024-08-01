@@ -14,7 +14,7 @@ export class FindTransactionByIdController {
   async findTransactionById(@Req() req: Request) {
     const { id } = req.params;
 
-    const result = await this.handler.execute({ id });
+    const result = await this.handler.execute({ id: Number(id) });
 
     return { message: 'Success', data: result };
   }

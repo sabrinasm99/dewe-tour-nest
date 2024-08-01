@@ -5,7 +5,7 @@ import { z } from 'zod';
 
 export const ListTransactionByCustomerDTOResponseSchema = z.array(
   z.object({
-    id: z.string().uuid(),
+    id: z.number(),
     customer: CustomerDTOResponseSchema,
     quantity: z.number().int().nonnegative(),
     total_payment: z.number().int().nonnegative(),
@@ -20,6 +20,8 @@ export const ListTransactionByCustomerDTOResponseSchema = z.array(
       const year = newDate.getFullYear();
       return `${day}, ${date} ${month} ${year}`;
     }),
+    created_at: z.date(),
+    updated_at: z.date(),
   }),
 );
 

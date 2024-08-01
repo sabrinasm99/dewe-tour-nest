@@ -40,7 +40,7 @@ export class UploadPaymentProofController {
     const filename = filenameGenerator(file.fieldname, file.originalname);
 
     await this.handler.execute({
-      id,
+      id: Number(id),
       attachment_filename: filename,
       attachment_buffer: file.buffer,
     });

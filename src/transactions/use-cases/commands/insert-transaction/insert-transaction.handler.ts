@@ -40,10 +40,7 @@ export class InsertTransactionHandlerImpl implements InsertTransactionHandler {
       throw new Error('Your order quantity exceeds the available quota');
     }
 
-    const id = v4();
-
     const transaction = Transaction.create({
-      id,
       customer_id: params.customer_id,
       quantity: params.quantity,
       total_payment: params.total_payment,
@@ -51,10 +48,12 @@ export class InsertTransactionHandlerImpl implements InsertTransactionHandler {
       attachment: null,
       trip_id: params.trip_id,
       booking_date: new Date(),
+      created_at: new Date(),
+      updated_at: new Date(),
     });
 
-    await this.transactionRepo.insert(transaction);
+    const result = await this.transactionRepo.insert(transaction);
 
-    return transaction;
+    return result;
   }
 }
