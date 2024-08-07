@@ -1,0 +1,11 @@
+images
+.env
+node_modules
+build
+*.md
+test
+dist
+coverage
+migrate
+api.http
+play.ts

@@ -1,0 +1,19 @@
+FROM node:20.9.0 as build
+
+WORKDIR /home/dewe-tour-nest
+
+COPY . .
+
+RUN npm install -g pnpm
+
+RUN pnpm install
+RUN pnpm run build
+
+FROM node:20.9.0-alpine
+
+WORKDIR /home/dewe-tour-nest
+
+COPY --from=build /home/dewe-tour-nest/dist/src ./src
+COPY --from=build /home/dewe-tour-nest/node_modules ./node_modules
+
+CMD ["node", "src/main.js"]
