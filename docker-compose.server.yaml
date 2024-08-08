@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: myapp
+    networks:
+      - app-network
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+  db:
+    image: postgres
+    container_name: ${PG_HOST}
+    environment:
+      POSTGRES_DB: ${PG_DATABASE}
+      POSTGRES_USER: ${PG_USER}
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - app-network
+    ports:
+      - 127.0.0.1:${PG_PORT}:${PG_PORT}
+  migrations:
+    build: ./migrate
+    container_name: migrations
+    networks:
+      - app-network
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env
+networks:
+  app-network:
+    driver: bridge
+volumes:
+  db-data:
+    driver: local
+    driver_opts:
+     type: none
+     device: ${VOLUMES_DRIVER_SERVER}
+     o: bind
