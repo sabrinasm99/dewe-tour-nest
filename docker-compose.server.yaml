@@ -48,8 +48,4 @@ networks:
     driver: bridge
 volumes:
   db-data:
-    driver: local
-    driver_opts:
-     type: none
-     device: ${VOLUMES_DRIVER_SERVER}
-     o: bind
+    external: true
