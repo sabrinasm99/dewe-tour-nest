@@ -1,4 +1,4 @@
-FROM node:20.9.0 as build
+FROM node:20.9.0 AS build
 
 WORKDIR /home/dewe-tour-nest
 
@@ -13,7 +13,7 @@ FROM node:20.9.0-alpine
 
 WORKDIR /home/dewe-tour-nest
 
-COPY --from=build /home/dewe-tour-nest/dist/src ./src
+COPY --from=build /home/dewe-tour-nest/dist ./src
 COPY --from=build /home/dewe-tour-nest/node_modules ./node_modules
 
 CMD ["node", "src/main.js"]
