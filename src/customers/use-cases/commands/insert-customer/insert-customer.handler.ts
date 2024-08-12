@@ -10,7 +10,7 @@ import {
   CUSTOMER_REPOSITORY,
   saltRounds,
 } from 'src/customers/customer.constants';
-import { hash } from 'bcrypt';
+import { genSalt, hash } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 
 type RegisterResultProps = {
@@ -34,7 +34,9 @@ export class InsertCustomerHandlerImpl implements InsertCustomerHandler {
 
     const id = v4();
 
-    const hashedPass = await hash(params.password, saltRounds);
+    const salt = await genSalt(saltRounds);
+
+    const hashedPass = await hash(params.password, salt);
 
     const isAdmin =
       params.is_admin && params.is_admin === true ? params.is_admin : false;

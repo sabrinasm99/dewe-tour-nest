@@ -3,7 +3,7 @@ import {
   LoginCustomerDTORequest,
   LoginCustomerDTORequestSchema,
 } from './login-customer.dto.request';
-import { compare } from 'bcrypt';
+import { compare } from 'bcryptjs';
 import {
   Inject,
   Injectable,

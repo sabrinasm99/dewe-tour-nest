@@ -10,7 +10,7 @@ import {
   customerImagesDir,
   saltRounds,
 } from 'src/customers/customer.constants';
-import { hash } from 'bcrypt';
+import { hash } from 'bcryptjs';
 import { unlink, writeFile } from 'fs/promises';
 import { existsSync, mkdirSync } from 'fs';
 
