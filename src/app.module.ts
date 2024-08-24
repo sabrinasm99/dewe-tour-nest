@@ -1,9 +1,4 @@
-import {
-  MiddlewareConsumer,
-  Module,
-  NestModule,
-  RequestMethod,
-} from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TripModule } from './trips/trip.module';
 import { APP_FILTER } from '@nestjs/core';
 import { HttpExceptionFilter } from './http-exception.filter';
@@ -32,7 +27,7 @@ import { UpdateStatusToWaitingApproveController } from './transactions/use-cases
 import { ListTransactionByCustomerController } from './transactions/use-cases/queries/list-transaction-by-customer/list-transaction-by-customer.controller';
 import { FindTransactionByIdController } from './transactions/use-cases/queries/find-transaction-by-id/find-transaction-by-id.controller';
 import { FindCustomerByIdController } from './customers/use-cases/queries/find-customer-by-id/find-customer-by-id.controller';
-import { FindTripByIdController } from './trips/use-cases/queries/find-trip-by-id/find-trip-by-id.controller';
+import { DeleteCountryController } from './countries/use-cases/commands/delete-country/delete-country.controller';
 
 @Module({
   imports: [
@@ -49,15 +44,30 @@ import { FindTripByIdController } from './trips/use-cases/queries/find-trip-by-i
     CustomerModule,
     ServeStaticModule.forRoot(
       {
-        rootPath: join(__dirname, '../../images/trip-picture'),
+        rootPath: join(
+          __dirname,
+          process.env.APP_ENV === 'production' ? '' : '..',
+          '..',
+          'images/trip-picture',
+        ),
         serveRoot: '/trip/',
       },
       {
-        rootPath: join(__dirname, '../../images/customer-avatar'),
+        rootPath: join(
+          __dirname,
+          process.env.APP_ENV === 'production' ? '' : '..',
+          '..',
+          'images/customer-avatar',
+        ),
         serveRoot: '/avatar/',
       },
       {
-        rootPath: join(__dirname, '../../images/payment-proof'),
+        rootPath: join(
+          __dirname,
+          process.env.APP_ENV === 'production' ? '' : '..',
+          '..',
+          'images/payment-proof',
+        ),
         serveRoot: '/proof/',
       },
     ),
@@ -91,6 +101,7 @@ export class AppModule implements NestModule {
         ListCustomerController,
         ListCountryController,
         InsertCountryController,
+        DeleteCountryController,
         InsertTripController,
         UpdateTripController,
         DeleteTripController,

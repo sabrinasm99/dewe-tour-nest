@@ -31,4 +31,11 @@ export class CountryPgRepository implements CountryRepository {
 
     return Country.create(row);
   }
+
+  async delete(id: string): Promise<void> {
+    const text = 'DELETE FROM countries WHERE id = $1';
+    const value = [id];
+
+    await this.client.query(text, value);
+  }
 }
