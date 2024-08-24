@@ -47,7 +47,7 @@ export class InsertTripHandlerImpl implements InsertTripHandler {
     await this.tripRepo.insert(trip);
 
     if (!existsSync(tripImagesDir)) {
-      mkdirSync(tripImagesDir);
+      mkdirSync(tripImagesDir, { recursive: true });
     }
 
     const filePath = `${tripImagesDir}/${params.cover_image.filename}`;

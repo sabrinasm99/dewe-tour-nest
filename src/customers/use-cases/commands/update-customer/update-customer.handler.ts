@@ -77,7 +77,7 @@ export class UpdateCustomerHandlerImpl implements UpdateCustomerHandler {
     await this.customerRepo.update(customer);
 
     if (!existsSync(customerImagesDir)) {
-      mkdirSync(customerImagesDir);
+      mkdirSync(customerImagesDir, { recursive: true });
     }
 
     if (oldPath && newPath) {

@@ -48,7 +48,7 @@ export class UploadPaymentProofHandlerImpl
     await this.transactionRepo.update(transaction);
 
     if (!existsSync(paymentImagesDir)) {
-      mkdirSync(paymentImagesDir);
+      mkdirSync(paymentImagesDir, { recursive: true });
     }
 
     if (oldPath) {
