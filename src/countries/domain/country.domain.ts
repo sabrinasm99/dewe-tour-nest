@@ -20,4 +20,13 @@ export class Country {
     const validatedProps = CountrySchema.parse(props);
     return new Country(validatedProps);
   }
+
+  updateName(name: string) {
+    this.props.name = CountrySchema.shape.name.parse(name);
+    this.update();
+  }
+
+  private update() {
+    this.props.updated_at = new Date();
+  }
 }

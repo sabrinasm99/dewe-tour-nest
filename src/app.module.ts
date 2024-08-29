@@ -28,6 +28,7 @@ import { ListTransactionByCustomerController } from './transactions/use-cases/qu
 import { FindTransactionByIdController } from './transactions/use-cases/queries/find-transaction-by-id/find-transaction-by-id.controller';
 import { FindCustomerByIdController } from './customers/use-cases/queries/find-customer-by-id/find-customer-by-id.controller';
 import { DeleteCountryController } from './countries/use-cases/commands/delete-country/delete-country.controller';
+import { UpdateCountryController } from './countries/use-cases/commands/update-country/update-country.controller';
 
 @Module({
   imports: [
@@ -101,6 +102,7 @@ export class AppModule implements NestModule {
         ListCustomerController,
         ListCountryController,
         InsertCountryController,
+        UpdateCountryController,
         DeleteCountryController,
         InsertTripController,
         UpdateTripController,

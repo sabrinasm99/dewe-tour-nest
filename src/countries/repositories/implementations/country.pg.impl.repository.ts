@@ -29,7 +29,17 @@ export class CountryPgRepository implements CountryRepository {
 
     const row = result.rows[0];
 
-    return Country.create(row);
+    return Country.create({ ...row });
+  }
+
+  async update(country: Country) {
+    const props = country.getProps();
+
+    const text =
+      'UPDATE countries SET name = $1, updated_at = $2 WHERE id = $3';
+    const values = [props.name, props.updated_at, props.id];
+
+    await this.client.query(text, values);
   }
 
   async delete(id: string): Promise<void> {
