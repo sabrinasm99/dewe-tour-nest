@@ -13,7 +13,9 @@ export interface ListCountryHandler {
 export class ListCountryHandlerImpl implements ListCountryHandler {
   constructor(private client: PgConnection) {}
   async execute() {
-    const response = await this.client.query('SELECT * FROM countries');
+    const response = await this.client.query(
+      'SELECT * FROM countries ORDER BY created_at ASC',
+    );
 
     const transformed = await ListCountryDTOResponseSchema.parseAsync(
       response.rows,
