@@ -16,6 +16,4 @@ WORKDIR /home/dewe-tour-nest
 COPY --from=build /home/dewe-tour-nest/dist ./src
 COPY --from=build /home/dewe-tour-nest/node_modules ./node_modules
 
-EXPOSE 5000
-
 CMD ["node", "src/main.js"]
