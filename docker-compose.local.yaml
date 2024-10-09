@@ -8,6 +8,8 @@ services:
     container_name: myapp
     networks:
       - app-network
+    volumes:
+      - object-storage:/home/dewe-tour-nest/images
     depends_on:
       db:
         condition: service_healthy
@@ -48,8 +50,6 @@ networks:
     driver: bridge
 volumes:
   db-data:
-    driver: local
-    driver_opts:
-     type: none
-     device: ${VOLUMES_DRIVER_LOCAL}
-     o: bind
+    external: true
+  object-storage:
+    external: true
