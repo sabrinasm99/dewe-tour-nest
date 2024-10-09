@@ -9,7 +9,7 @@ services:
     networks:
       - app-network
     volumes:
-      - object-storage:/home/dewe-tour-nest/images
+      - object-storage:${OBJECT_STORAGE_PATH}
     depends_on:
       db:
         condition: service_healthy
